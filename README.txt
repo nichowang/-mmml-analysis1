@@ -3,6 +3,15 @@ Idea 2: Reference Selection (Seamless Interaction, Naturalistic train)
 Data
   data/0000_00NN/  npz + json of archives 0000/0000-0009 (video and audio not downloaded)
 
+  The data is not in this repository. All of it comes from the public Hugging Face
+  dataset facebook/seamless-interaction (Meta, CC BY-NC 4.0), split naturalistic/train:
+    https://huggingface.co/datasets/facebook/seamless-interaction/tree/main/naturalistic/train
+  scripts/download.py streams each archive and keeps only the .npz (SMPL-H movement) and
+  .json (transcript and VAD) members. The copy used here was about 20 GB:
+    batch 0000, archives 0000-0043   (0010-0043 repeat the 32 participants of 0000-0009)
+    batches 0001-0005, archives 0000-0009   (new participants, training-only)
+  cache/ holds per-archive features that scripts/idea2_features.py rebuilds from data/.
+
 Run (python with numpy, scipy, matplotlib)
   python scripts/download.py data 0 0 1 2 3 4 5 6 7 8 9
   python scripts/analysis1.py data results/extended_a0-9 "0000_000[0-9]"
