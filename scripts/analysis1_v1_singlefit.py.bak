@@ -1,0 +1,359 @@
+"""Analysis 1: Motion style across recordings (Seamless Interaction, Naturalistic train).
+
+Steps
+  1. Forward kinematics of SMPL-H body pose on ONE common skeleton (fixed rest
+     joints, so body shape is identical for everyone); positions expressed in the
+     chest (spine3) frame, i.e. torso-relative.
+  2. Per 5 s block: wrist speed (L,R), wrist excursion (L,R), hand height (L,R),
+     head angular speed. Derivatives never cross a block boundary.
+     10 s window descriptor = equal-weight mean of its two 5 s blocks.
+  3. z-scoring fitted on the fitting subset (participants with a single recording,
+     who are never queries).
+  4. Cross-recording test: for every query window, same-person reference = a window
+     of the same person in a DIFFERENT recording; different-person references =
+     windows of other people whose speaking fraction is within TOL of the
+     same-person reference. Delta = mean diff-person dist - same-person dist.
+     Participant-level means, bootstrap CI over participants.
+  5. Same-recording comparison reported separately.
+  6. Reference selection: one continuous 10 s clip vs two non-adjacent 5 s clips,
+     both drawn from one other recording (fixed source-recording rule).
+
+Usage: python analysis1.py DATA_DIR OUT_DIR [archive_glob]
+"""
+import glob
+import json
+import os
+import sys
+from collections import defaultdict
+
+import numpy as np
+from scipy.spatial.transform import Rotation as R
+
+FPS = 30
+BLOCK = 5 * FPS          # 5 s block
+MIN_VALID = 0.95         # fraction of valid SMPL-H frames required in a block
+TOL = 0.10               # speaking-fraction matching tolerance
+GAP_BLOCKS = 2           # >=10 s between the two spread clips (non-adjacent)
+N_BOOT = 10000
+RNG = np.random.default_rng(0)
+
+# Common skeleton: SMPL neutral mean-shape rest joints (metres; x = body left,
+# y = up, z = forward). Used for everyone, so differences in limb length / body
+# shape cannot contribute to the descriptors.
+REST = np.array([
+    [-0.0018, -0.2233, 0.0282], [0.0695, -0.3142, 0.0214], [-0.0677, -0.3147, 0.0190],
+    [-0.0025, -0.1089, 0.0013], [0.1040, -0.6754, 0.0365], [-0.1060, -0.6797, 0.0263],
+    [0.0055, 0.0252, 0.0280], [0.0886, -1.0817, -0.0272], [-0.0920, -1.0830, -0.0221],
+    [0.0017, 0.0796, 0.0306], [0.1196, -1.1405, 0.0975], [-0.1238, -1.1438, 0.1027],
+    [-0.0016, 0.2918, -0.0029], [0.0767, 0.1997, -0.0021], [-0.0767, 0.1985, -0.0025],
+    [0.0064, 0.3586, 0.0503], [0.1990, 0.2394, -0.0158], [-0.1913, 0.2369, -0.0207],
+    [0.4524, 0.2217, -0.0412], [-0.4500, 0.2257, -0.0440], [0.7181, 0.2338, -0.0490],
+    [-0.7161, 0.2342, -0.0506]])
+PARENT = [-1, 0, 0, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 9, 9, 12, 13, 14, 16, 17, 18, 19]
+SPINE3, HEAD, LWR, RWR = 9, 15, 20, 21
+FEATS = ["wrist_speed_L", "wrist_speed_R", "wrist_excursion_L", "wrist_excursion_R",
+         "hand_height_L", "hand_height_R", "head_ang_speed"]
+LOG_FEATS = [0, 1, 2, 3, 6]  # positive, right-skewed -> log before scaling
+
+
+def fk(body_pose, global_orient):
+    """Return torso-relative wrist positions (T,2,3) and world head rotations."""
+    T = body_pose.shape[0]
+    loc = np.concatenate([np.zeros((T, 1, 3)), body_pose], 1)       # root = identity
+    Rl = R.from_rotvec(loc.reshape(-1, 3)).as_matrix().reshape(T, 22, 3, 3)
+    G = np.zeros_like(Rl)
+    P = np.zeros((T, 22, 3))
+    G[:, 0], P[:, 0] = Rl[:, 0], REST[0]
+    for j in range(1, 22):
+        p = PARENT[j]
+        G[:, j] = G[:, p] @ Rl[:, j]
+        P[:, j] = P[:, p] + np.einsum("tab,b->ta", G[:, p], REST[j] - REST[p])
+    # chest frame: rel = G9^T (p - p9)
+    rel = np.einsum("tba,tjb->tja", G[:, SPINE3], P[:, [LWR, RWR]] - P[:, [SPINE3]])
+    head_world = R.from_rotvec(global_orient) * R.from_matrix(G[:, HEAD])
+    return rel, head_world
+
+
+def speaking_mask(vad, T):
+    m = np.zeros(T, bool)
+    for seg in vad:
+        a, b = int(round(seg["start"] * FPS)), int(round(seg["end"] * FPS))
+        m[max(a, 0):min(b, T)] = True
+    return m
+
+
+def block_descriptors(npz_path, json_path):
+    z = np.load(npz_path)
+    valid = z["smplh:is_valid"].astype(bool)
+    bp, go = z["smplh:body_pose"].astype(np.float64), z["smplh:global_orient"].astype(np.float64)
+    T = len(valid)
+    vad = json.load(open(json_path))["metadata:vad"]
+    speak = speaking_mask(vad, T)
+    rel, head = fk(bp, go)
+    out = []  # (block_idx, feat[7], speak_frac, valid_frac)
+    for b in range(T // BLOCK):
+        s = slice(b * BLOCK, (b + 1) * BLOCK)
+        v = valid[s]
+        vf = v.mean()
+        if vf < MIN_VALID:
+            out.append((b, None, speak[s].mean(), vf))
+            continue
+        w = rel[s]                              # (B,2,3)
+        pair = v[1:] & v[:-1]                   # consecutive valid frames inside block only
+        sp = np.linalg.norm(np.diff(w, axis=0), axis=-1)[pair] * FPS   # (n,2)
+        hq = head[b * BLOCK:(b + 1) * BLOCK]
+        dq = (hq[:-1].inv() * hq[1:]).magnitude()[pair] * FPS
+        wv = w[v]
+        exc = np.sqrt(((wv - wv.mean(0)) ** 2).sum(-1).mean(0))       # (2,)
+        hh = wv[..., 1].mean(0)                                       # (2,)
+        f = np.array([sp[:, 0].mean(), sp[:, 1].mean(), exc[0], exc[1], hh[0], hh[1], dq.mean()])
+        out.append((b, f, speak[s].mean(), vf))
+    return out, T
+
+
+def parse_id(rid):
+    v, s, i, p = rid.split("_")
+    return dict(vendor=v, session=s, interaction=i, participant=p)
+
+
+def boot_ci(x, n=N_BOOT):
+    x = np.asarray(x)
+    idx = RNG.integers(0, len(x), (n, len(x)))
+    m = x[idx].mean(1)
+    return x.mean(), np.percentile(m, 2.5), np.percentile(m, 97.5), (m <= 0).mean()
+
+
+def main(data_dir, out_dir, pattern="*"):
+    os.makedirs(out_dir, exist_ok=True)
+    recs = {}
+    for npz in sorted(glob.glob(os.path.join(data_dir, pattern, "*.npz"))):
+        rid = os.path.basename(npz)[:-4]
+        js = npz[:-4] + ".json"
+        if not os.path.exists(js):
+            continue
+        blocks, T = block_descriptors(npz, js)
+        recs[rid] = dict(blocks=blocks, T=T, **parse_id(rid),
+                         archive=os.path.basename(os.path.dirname(npz)))
+    print(f"{len(recs)} recordings", flush=True)
+
+    # ---- raw block table + windows (two adjacent valid blocks, non-overlapping tiling)
+    rows = []           # windows
+    blk_rows = []       # valid 5 s blocks
+    for rid, r in recs.items():
+        bl = r["blocks"]
+        for b, f, sf, vf in bl:
+            if f is not None:
+                blk_rows.append(dict(rid=rid, pid=r["participant"], b=b, f=f, sf=sf))
+        for w in range(len(bl) // 2):
+            b1, b2 = bl[2 * w], bl[2 * w + 1]
+            if b1[1] is None or b2[1] is None:
+                continue
+            rows.append(dict(rid=rid, pid=r["participant"], sess=r["session"],
+                             inter=r["interaction"], w=w, blocks=(b1[1], b2[1]),
+                             sf=(b1[2] + b2[2]) / 2))
+
+    # ---- coverage
+    per_p = defaultdict(lambda: defaultdict(int))
+    for x in rows:
+        per_p[x["pid"]][x["rid"]] += 1
+    rec_minutes = sum(r["T"] for r in recs.values()) / FPS / 60
+    multi = sorted(p for p, d in per_p.items() if len(d) >= 2)
+    single = sorted(p for p, d in per_p.items() if len(d) == 1)
+    all_pids = sorted({r["participant"] for r in recs.values()})
+    cov = dict(n_recordings=len(recs), n_participants=len(all_pids),
+               minutes=rec_minutes, n_windows=len(rows),
+               n_participants_with_windows=len(per_p),
+               n_multi=len(multi), n_single=len(single),
+               n_blocks_total=sum(len(r["blocks"]) for r in recs.values()),
+               n_blocks_valid=len(blk_rows),
+               windows_per_participant={p: dict(d) for p, d in per_p.items()},
+               sessions_per_multi={p: sorted({recs[rid]["session"] for rid in per_p[p]}) for p in multi})
+    print(json.dumps({k: v for k, v in cov.items() if not isinstance(v, dict)}), flush=True)
+
+    # ---- scaling fitted on the fitting subset (single-recording participants)
+    def tf(f):
+        g = f.copy()
+        g[LOG_FEATS] = np.log(np.maximum(g[LOG_FEATS], 1e-6))
+        return g
+    fit_blocks = np.array([tf(x["f"]) for x in blk_rows if x["pid"] in set(single)])
+    if len(fit_blocks) < 20:  # fallback: everyone (flagged in output)
+        fit_blocks = np.array([tf(x["f"]) for x in blk_rows])
+        cov["scaling_fallback_all"] = True
+    mu, sd = fit_blocks.mean(0), fit_blocks.std(0) + 1e-9
+
+    def z(f):
+        return (tf(f) - mu) / sd
+    for x in rows:
+        x["d"] = (z(x["blocks"][0]) + z(x["blocks"][1])) / 2
+    for x in blk_rows:
+        x["d"] = z(x["f"])
+
+    D = np.array([x["d"] for x in rows])
+    SF = np.array([x["sf"] for x in rows])
+    PID = np.array([x["pid"] for x in rows])
+    RID = np.array([x["rid"] for x in rows])
+    W = np.array([x["w"] for x in rows])
+    SESS = np.array([x["sess"] for x in rows])
+
+    def diffperson_mean(q, ref_sf, pid, dims=None):
+        """Mean distance from query to other people's windows within TOL of ref_sf;
+        participants weighted equally. Returns None if no match."""
+        m = (PID != pid) & (np.abs(SF - ref_sf) <= TOL)
+        if not m.any():
+            return None
+        dd = D[m] if dims is None else D[m][:, dims]
+        qq = D[q] if dims is None else D[q][dims]
+        dist = np.linalg.norm(dd - qq, axis=-1)
+        pids = PID[m]
+        return np.mean([dist[pids == p].mean() for p in np.unique(pids)]), (dist,)
+
+    def run(kind, dims=None):
+        """kind = 'cross' (same person, other recording) or 'same' (same recording, non-adjacent)."""
+        per_part, per_q_win = defaultdict(list), defaultdict(list)
+        cross_sess = defaultdict(list)
+        for q in np.where(np.isin(PID, multi))[0]:
+            p = PID[q]
+            if kind == "cross":
+                cand = np.where((PID == p) & (RID != RID[q]))[0]
+            else:
+                cand = np.where((RID == RID[q]) & (np.abs(W - W[q]) >= 2))[0]
+            if len(cand) == 0:
+                continue
+            deltas, wins = [], []
+            for r in cand:
+                res = diffperson_mean(q, SF[r], p, dims)
+                if res is None:
+                    continue
+                dneg, (alld,) = res
+                dpos = np.linalg.norm((D[r] - D[q]) if dims is None else (D[r][dims] - D[q][dims]))
+                deltas.append(dneg - dpos)
+                wins.append((alld > dpos).mean())
+                if kind == "cross":
+                    cross_sess["same_session" if SESS[r] == SESS[q] else "diff_session"].append(
+                        (p, dneg - dpos))
+            if deltas:
+                per_part[p].append(np.mean(deltas))
+                per_q_win[p].append(np.mean(wins))
+        parts = sorted(per_part)
+        pd = np.array([np.mean(per_part[p]) for p in parts])
+        pw = np.array([np.mean(per_q_win[p]) for p in parts])
+        return dict(participants=parts, delta=pd.tolist(), winrate=pw.tolist(),
+                    n_queries={p: len(per_part[p]) for p in parts},
+                    delta_ci=boot_ci(pd) if len(pd) > 1 else None,
+                    win_ci=boot_ci(pw - 0.5) if len(pw) > 1 else None,
+                    by_session=cross_sess)
+
+    res = {}
+    res["cross"] = run("cross")
+    res["same"] = run("same")
+    res["per_feature_cross"] = {FEATS[k]: run("cross", dims=[k])["delta_ci"] for k in range(7)}
+    # speaking-fraction-only "descriptor": does activity alone separate people? (sanity)
+    for k in ("cross", "same"):
+        r = res[k]
+        print(k, "participants", len(r["participants"]), "delta mean/CI/p(<=0)", r["delta_ci"],
+              "winrate-0.5", r["win_ci"], flush=True)
+    bs = {}
+    for lab, lst in res["cross"].pop("by_session").items():
+        byp = defaultdict(list)
+        for p, d in lst:
+            byp[p].append(d)
+        v = np.array([np.mean(x) for x in byp.values()])
+        bs[lab] = dict(n_participants=len(v), n_pairs=len(lst),
+                       ci=boot_ci(v) if len(v) > 1 else (float(v.mean()) if len(v) else None,))
+    res["cross_by_session"] = bs
+    res["same"].pop("by_session")
+    print("cross by session", bs, flush=True)
+
+    # ---- reference selection: continuous 10 s vs two non-adjacent 5 s clips
+    blk = defaultdict(dict)  # rid -> b -> (desc, sf)
+    for x in blk_rows:
+        blk[x["rid"]][x["b"]] = (x["d"], x["sf"])
+
+    def draw_ref(rid, mode):
+        bs_ = blk[rid]
+        if mode == "cont":
+            opts = [(b, b + 1) for b in bs_ if b + 1 in bs_]
+        else:
+            ks = sorted(bs_)
+            opts = [(a, b) for a in ks for b in ks if b - a >= GAP_BLOCKS + 1]
+        if not opts:
+            return None
+        a, b = opts[RNG.integers(len(opts))]
+        return (bs_[a][0] + bs_[b][0]) / 2, (bs_[a][1] + bs_[b][1]) / 2
+
+    def eligible(rid):
+        bs_ = blk[rid]
+        ks = sorted(bs_)
+        return any(b + 1 in bs_ for b in ks) and any(b - a >= GAP_BLOCKS + 1 for a in ks for b in ks)
+
+    elig_rec = {rid for rid in blk if eligible(rid)}
+    rec_by_p = defaultdict(list)
+    for rid in elig_rec:
+        rec_by_p[recs[rid]["participant"]].append(rid)
+    # fixed participant subset: multi-recording participants with >=1 eligible OTHER recording
+    sel_parts = [p for p in multi if any(
+        any(rid2 != rid for rid2 in rec_by_p[p]) for rid in per_p[p])]
+    n_draw = 40
+    refsel = defaultdict(lambda: {"cont": [], "spread": []})
+    refsel_win = defaultdict(lambda: {"cont": [], "spread": []})
+    pool_rids = sorted(elig_rec)
+    for q in np.where(np.isin(PID, sel_parts))[0]:
+        p = PID[q]
+        srcs = [rid for rid in rec_by_p[p] if rid != RID[q]]
+        if not srcs:
+            continue
+        others = [rid for rid in pool_rids if recs[rid]["participant"] != p]
+        for mode in ("cont", "spread"):
+            ds, ws = [], []
+            for _ in range(n_draw):
+                src = srcs[RNG.integers(len(srcs))]          # one source recording
+                pos = draw_ref(src, mode)
+                dpos = np.linalg.norm(pos[0] - D[q])
+                negs = defaultdict(list)
+                for rid in others:
+                    neg = draw_ref(rid, mode)
+                    if abs(neg[1] - pos[1]) <= TOL:
+                        negs[recs[rid]["participant"]].append(np.linalg.norm(neg[0] - D[q]))
+                if not negs:
+                    continue
+                allneg = np.concatenate([np.array(v) for v in negs.values()])
+                ds.append(np.mean([np.mean(v) for v in negs.values()]) - dpos)
+                ws.append((allneg > dpos).mean())
+            if ds:
+                refsel[p][mode].append(np.mean(ds))
+                refsel_win[p][mode].append(np.mean(ws))
+    rp = sorted(p for p in refsel if refsel[p]["cont"] and refsel[p]["spread"])
+    c = np.array([np.mean(refsel[p]["cont"]) for p in rp])
+    s = np.array([np.mean(refsel[p]["spread"]) for p in rp])
+    cw = np.array([np.mean(refsel_win[p]["cont"]) for p in rp])
+    sw = np.array([np.mean(refsel_win[p]["spread"]) for p in rp])
+    res["refsel"] = dict(participants=rp, cont=c.tolist(), spread=s.tolist(),
+                         cont_win=cw.tolist(), spread_win=sw.tolist(),
+                         cont_ci=boot_ci(c), spread_ci=boot_ci(s), diff_ci=boot_ci(s - c),
+                         win_diff_ci=boot_ci(sw - cw), n_draw=n_draw)
+    print("refsel cont", boot_ci(c), "spread", boot_ci(s), "diff", boot_ci(s - c), flush=True)
+
+    # ---- save
+    res["coverage"] = cov
+    res["settings"] = dict(FPS=FPS, block_s=BLOCK / FPS, window_s=2 * BLOCK / FPS,
+                           min_valid=MIN_VALID, tol=TOL, gap_blocks=GAP_BLOCKS,
+                           n_boot=N_BOOT, feats=FEATS, log_feats=[FEATS[i] for i in LOG_FEATS],
+                           scaling_mu=mu.tolist(), scaling_sd=sd.tolist())
+    res["window_table"] = [dict(rid=x["rid"], pid=x["pid"], w=int(x["w"]), sf=float(x["sf"]),
+                                d=x["d"].tolist(),
+                                raw=((x["blocks"][0] + x["blocks"][1]) / 2).tolist()) for x in rows]
+
+    def conv(o):
+        if isinstance(o, (np.floating, np.integer)):
+            return o.item()
+        if isinstance(o, np.ndarray):
+            return o.tolist()
+        if isinstance(o, tuple):
+            return [conv(x) for x in o]
+        raise TypeError(type(o))
+    json.dump(res, open(os.path.join(out_dir, "analysis1_results.json"), "w"), default=conv, indent=1)
+    print("saved", flush=True)
+
+
+if __name__ == "__main__":
+    main(sys.argv[1], sys.argv[2], *(sys.argv[3:4] or ["*"]))

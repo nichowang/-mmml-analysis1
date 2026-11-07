@@ -1,0 +1,325 @@
+0 131 V00_S0030_I00000126_P0045 cached
+20 131 V00_S0052_I00000135_P0080 cached
+40 131 V00_S0034_I00000384_P0053 cached
+60 131 V00_S0049_I00000487_P0075 cached
+80 131 V00_S0034_I00000372_P0054 cached
+100 131 V00_S0050_I00000125_P0078 cached
+120 131 V00_S0035_I00000385_P0056 cached
+done 131
+131 recordings loaded (4s)
+eval participants 32 (main 19), extra-only 0, overlap 0
+fold 0: test 9 (5 query), train participants 23
+  312 queries, sets built
+  [mean] step 0 loss 2.097 acc 0.57
+  [mean] step 199 loss 0.105 acc 0.96
+/ocean/projects/cis250037p/ywang134/envs/aw310/lib/python3.10/site-packages/torch/nn/modules/transformer.py:505: UserWarning: The PyTorch API of nested tensors is in prototype stage and will change in the near future. We recommend specifying layout=torch.jagged when constructing a nested tensor, as this layout receives active development, has better operator coverage, and works with torch.compile. (Triggered internally at /pytorch/aten/src/ATen/NestedTensorImpl.cpp:178.)
+  output = torch._nested_tensor_from_mask(
+  [mean_aug] step 0 loss 2.053 acc 0.57
+  [mean_aug] step 199 loss 0.411 acc 0.87
+  [gated] step 0 loss 2.288 acc 0.48
+  [gated] step 199 loss 0.569 acc 0.91
+  models trained (53s)
+  desc_mean          A(1x20s) P0047:0.71 P0052:0.69 P0056:0.51 P0074:0.65 P0075:0.54
+  desc_median        A(1x20s) P0047:0.73 P0052:0.66 P0056:0.51 P0074:0.65 P0075:0.52
+  si_latent          A(1x20s) P0047:0.80 P0052:0.98 P0056:0.99 P0074:0.97 P0075:0.98
+  si_expr            A(1x20s) P0047:0.88 P0052:0.97 P0056:0.95 P0074:0.88 P0075:0.80
+  si_hyper           A(1x20s) P0047:0.63 P0052:1.00 P0056:1.00 P0074:1.00 P0075:1.00
+  learned_mean       A(1x20s) P0047:0.74 P0052:0.99 P0056:0.86 P0074:0.91 P0075:0.77
+  learned_mean_aug   A(1x20s) P0047:0.77 P0052:0.98 P0056:0.86 P0074:0.94 P0075:0.77
+  learned_gated      A(1x20s) P0047:0.76 P0052:0.96 P0056:0.85 P0074:0.91 P0075:0.79
+fold 1: test 8 (5 query), train participants 24
+  349 queries, sets built
+  [mean] step 0 loss 1.784 acc 0.65
+  [mean] step 199 loss 0.148 acc 0.96
+  [mean_aug] step 0 loss 1.834 acc 0.48
+  [mean_aug] step 199 loss 0.708 acc 0.78
+  [gated] step 0 loss 1.756 acc 0.52
+  [gated] step 199 loss 0.769 acc 0.83
+  models trained (89s)
+  desc_mean          A(1x20s) P0048:0.43 P0057:0.54 P0069:0.59 P0070:0.61 P0073:0.60
+  desc_median        A(1x20s) P0048:0.41 P0057:0.53 P0069:0.56 P0070:0.58 P0073:0.56
+  si_latent          A(1x20s) P0048:0.91 P0057:0.95 P0069:1.00 P0070:0.91 P0073:0.91
+  si_expr            A(1x20s) P0048:0.99 P0057:0.92 P0069:0.96 P0070:0.76 P0073:0.92
+  si_hyper           A(1x20s) P0048:0.85 P0057:1.00 P0069:0.99 P0070:0.87 P0073:1.00
+  learned_mean       A(1x20s) P0048:0.94 P0057:0.95 P0069:0.99 P0070:0.94 P0073:1.00
+  learned_mean_aug   A(1x20s) P0048:0.95 P0057:0.97 P0069:0.98 P0070:0.94 P0073:1.00
+  learned_gated      A(1x20s) P0048:0.95 P0057:0.97 P0069:0.99 P0070:0.93 P0073:1.00
+fold 2: test 8 (5 query), train participants 24
+  370 queries, sets built
+  [mean] step 0 loss 1.378 acc 0.52
+  [mean] step 199 loss 0.076 acc 1.00
+  [mean_aug] step 0 loss 2.683 acc 0.30
+  [mean_aug] step 199 loss 0.416 acc 0.91
+  [gated] step 0 loss 3.223 acc 0.30
+  [gated] step 199 loss 0.624 acc 0.91
+  models trained (127s)
+  desc_mean          A(1x20s) P0046:0.51 P0049:0.65 P0053:0.48 P0072:0.60 P0096:0.73
+  desc_median        A(1x20s) P0046:0.53 P0049:0.66 P0053:0.44 P0072:0.60 P0096:0.75
+  si_latent          A(1x20s) P0046:0.97 P0049:0.97 P0053:0.91 P0072:0.91 P0096:0.85
+  si_expr            A(1x20s) P0046:1.00 P0049:0.93 P0053:0.92 P0072:0.93 P0096:0.91
+  si_hyper           A(1x20s) P0046:1.00 P0049:1.00 P0053:0.97 P0072:1.00 P0096:1.00
+  learned_mean       A(1x20s) P0046:0.79 P0049:0.98 P0053:0.83 P0072:0.86 P0096:0.98
+  learned_mean_aug   A(1x20s) P0046:0.83 P0049:0.98 P0053:0.88 P0072:0.91 P0096:0.97
+  learned_gated      A(1x20s) P0046:0.83 P0049:0.97 P0053:0.89 P0072:0.89 P0096:0.96
+fold 3: test 7 (4 query), train participants 25
+  285 queries, sets built
+  [mean] step 0 loss 1.354 acc 0.62
+  [mean] step 199 loss 0.138 acc 0.96
+  [mean_aug] step 0 loss 2.693 acc 0.38
+  [mean_aug] step 199 loss 0.473 acc 0.83
+  [gated] step 0 loss 2.678 acc 0.42
+  [gated] step 199 loss 0.546 acc 0.92
+  models trained (164s)
+  desc_mean          A(1x20s) P0051:0.62 P0058:0.54 P0078:0.56 P0083:0.88
+  desc_median        A(1x20s) P0051:0.59 P0058:0.52 P0078:0.57 P0083:0.87
+  si_latent          A(1x20s) P0051:0.95 P0058:0.91 P0078:1.00 P0083:0.98
+  si_expr            A(1x20s) P0051:0.89 P0058:0.80 P0078:0.98 P0083:1.00
+  si_hyper           A(1x20s) P0051:0.99 P0058:1.00 P0078:1.00 P0083:1.00
+  learned_mean       A(1x20s) P0051:0.77 P0058:0.97 P0078:0.98 P0083:0.99
+  learned_mean_aug   A(1x20s) P0051:0.78 P0058:0.97 P0078:0.95 P0083:0.98
+  learned_gated      A(1x20s) P0051:0.71 P0058:0.95 P0078:0.89 P0083:0.98
+desc_mean|1x20s_1rec               A [0.602 0.559 0.647] Drel [ 0.043 -0.024  0.117] n=19
+desc_mean|2x10s_1rec               A [0.607 0.569 0.648] Drel [ 0.057 -0.004  0.126] n=19
+desc_mean|4x5s_1rec                A [0.629 0.586 0.676] Drel [0.083 0.018 0.154] n=19
+desc_mean|2x10s_2rec               A [0.625 0.582 0.674] Drel [0.094 0.032 0.165] n=19
+desc_mean|4x5s_2rec                A [0.631 0.588 0.679] Drel [0.087 0.025 0.159] n=19
+desc_mean|4x5s_3rec                A [0.637 0.597 0.68 ] Drel [0.094 0.036 0.163] n=19
+desc_mean|lq_base4                 A [0.63  0.588 0.675] Drel [0.085 0.026 0.156] n=19
+desc_mean|lq_jit_m2                A [0.606 0.544 0.672] Drel [ 0.039 -0.002  0.086] n=19
+desc_mean|lq_jit_m4                A [0.589 0.515 0.665] Drel [ 0.025 -0.005  0.057] n=19
+desc_mean|lq_wp_m2                 A [0.616 0.576 0.66 ] Drel [0.08  0.033 0.132] n=19
+desc_mean|lq_wp_m4                 A [0.596 0.558 0.639] Drel [0.059 0.023 0.103] n=19
+desc_mean|own_1x20s                A [0.669 0.621 0.718] Drel [0.152 0.078 0.233] n=19
+desc_median|1x20s_1rec             A [0.591 0.545 0.641] Drel [ 0.032 -0.038  0.11 ] n=19
+desc_median|2x10s_1rec             A [0.604 0.563 0.647] Drel [ 0.059 -0.005  0.127] n=19
+desc_median|4x5s_1rec              A [0.626 0.585 0.673] Drel [0.084 0.015 0.161] n=19
+desc_median|2x10s_2rec             A [0.621 0.574 0.67 ] Drel [0.093 0.023 0.168] n=19
+desc_median|4x5s_2rec              A [0.624 0.58  0.673] Drel [0.09  0.022 0.167] n=19
+desc_median|4x5s_3rec              A [0.633 0.591 0.678] Drel [0.097 0.031 0.169] n=19
+desc_median|lq_base4               A [0.622 0.578 0.67 ] Drel [0.088 0.022 0.164] n=19
+desc_median|lq_jit_m2              A [0.622 0.57  0.676] Drel [0.077 0.01  0.155] n=19
+desc_median|lq_jit_m4              A [0.59  0.509 0.673] Drel [ 0.026 -0.006  0.06 ] n=19
+desc_median|lq_wp_m2               A [0.612 0.572 0.657] Drel [0.087 0.032 0.15 ] n=19
+desc_median|lq_wp_m4               A [0.588 0.549 0.632] Drel [0.067 0.019 0.122] n=19
+desc_median|own_1x20s              A [0.658 0.608 0.712] Drel [0.142 0.064 0.228] n=19
+si_latent|1x20s_1rec               A [0.938 0.914 0.96 ] Drel [0.581 0.526 0.637] n=19
+si_latent|2x10s_1rec               A [0.943 0.916 0.966] Drel [0.591 0.53  0.652] n=19
+si_latent|4x5s_1rec                A [0.945 0.916 0.967] Drel [0.592 0.527 0.654] n=19
+si_latent|2x10s_2rec               A [0.949 0.926 0.968] Drel [0.603 0.545 0.66 ] n=19
+si_latent|4x5s_2rec                A [0.953 0.929 0.973] Drel [0.613 0.549 0.67 ] n=19
+si_latent|4x5s_3rec                A [0.947 0.919 0.97 ] Drel [0.6   0.533 0.665] n=19
+si_latent|lq_base4                 A [0.953 0.93  0.971] Drel [0.61  0.552 0.666] n=19
+si_latent|lq_wp_m2                 A [0.907 0.885 0.929] Drel [0.445 0.413 0.481] n=19
+si_latent|lq_wp_m4                 A [0.859 0.824 0.892] Drel [0.326 0.298 0.353] n=19
+si_latent|own_1x20s                A [0.969 0.957 0.981] Drel [0.676 0.634 0.72 ] n=19
+si_expr|1x20s_1rec                 A [0.914 0.883 0.943] Drel [0.364 0.322 0.407] n=19
+si_expr|2x10s_1rec                 A [0.925 0.886 0.957] Drel [0.379 0.329 0.425] n=19
+si_expr|4x5s_1rec                  A [0.932 0.885 0.966] Drel [0.385 0.328 0.434] n=19
+si_expr|2x10s_2rec                 A [0.942 0.916 0.965] Drel [0.39  0.349 0.431] n=19
+si_expr|4x5s_2rec                  A [0.955 0.929 0.975] Drel [0.407 0.365 0.448] n=19
+si_expr|4x5s_3rec                  A [0.96  0.94  0.976] Drel [0.409 0.372 0.446] n=19
+si_expr|lq_base4                   A [0.955 0.936 0.971] Drel [0.403 0.365 0.443] n=19
+si_expr|lq_wp_m2                   A [0.942 0.921 0.96 ] Drel [0.3   0.27  0.333] n=19
+si_expr|lq_wp_m4                   A [0.908 0.883 0.932] Drel [0.22  0.197 0.244] n=19
+si_expr|own_1x20s                  A [0.963 0.95  0.975] Drel [0.459 0.428 0.489] n=19
+si_hyper|1x20s_1rec                A [0.962 0.917 0.995] Drel [0.567 0.495 0.631] n=19
+si_hyper|2x10s_1rec                A [0.959 0.907 0.998] Drel [0.575 0.498 0.644] n=19
+si_hyper|4x5s_1rec                 A [0.957 0.904 0.999] Drel [0.572 0.487 0.645] n=19
+si_hyper|2x10s_2rec                A [0.979 0.949 0.998] Drel [0.595 0.526 0.655] n=19
+si_hyper|4x5s_2rec                 A [0.976 0.941 0.999] Drel [0.6   0.528 0.663] n=19
+si_hyper|4x5s_3rec                 A [0.984 0.96  0.999] Drel [0.61  0.541 0.669] n=19
+si_hyper|lq_base4                  A [0.985 0.964 0.999] Drel [0.604 0.538 0.662] n=19
+si_hyper|lq_wp_m2                  A [0.983 0.965 0.998] Drel [0.446 0.399 0.486] n=19
+si_hyper|lq_wp_m4                  A [0.971 0.948 0.989] Drel [0.324 0.289 0.353] n=19
+si_hyper|own_1x20s                 A [0.999 0.997 1.   ] Drel [0.716 0.686 0.746] n=19
+learned_mean|1x20s_1rec            A [0.907 0.868 0.944] Drel [0.371 0.307 0.433] n=19
+learned_mean|2x10s_1rec            A [0.916 0.876 0.952] Drel [0.391 0.328 0.452] n=19
+learned_mean|4x5s_1rec             A [0.916 0.877 0.952] Drel [0.393 0.327 0.46 ] n=19
+learned_mean|2x10s_2rec            A [0.933 0.899 0.963] Drel [0.407 0.344 0.469] n=19
+learned_mean|4x5s_2rec             A [0.94  0.909 0.968] Drel [0.422 0.359 0.483] n=19
+learned_mean|4x5s_3rec             A [0.938 0.906 0.968] Drel [0.419 0.355 0.481] n=19
+learned_mean|lq_base4              A [0.942 0.912 0.969] Drel [0.424 0.365 0.483] n=19
+learned_mean|lq_jit_m2             A [0.946 0.916 0.972] Drel [0.428 0.367 0.487] n=19
+learned_mean|lq_jit_m4             A [0.948 0.919 0.974] Drel [0.427 0.365 0.485] n=19
+learned_mean|lq_wp_m2              A [0.92  0.886 0.952] Drel [0.347 0.294 0.4  ] n=19
+learned_mean|lq_wp_m4              A [0.89  0.853 0.925] Drel [0.281 0.233 0.326] n=19
+learned_mean|own_1x20s             A [0.966 0.95  0.979] Drel [0.51  0.458 0.559] n=19
+learned_mean_aug|1x20s_1rec        A [0.916 0.882 0.947] Drel [0.365 0.303 0.429] n=19
+learned_mean_aug|2x10s_1rec        A [0.924 0.889 0.955] Drel [0.385 0.322 0.447] n=19
+learned_mean_aug|4x5s_1rec         A [0.929 0.897 0.958] Drel [0.392 0.325 0.458] n=19
+learned_mean_aug|2x10s_2rec        A [0.94  0.912 0.965] Drel [0.4   0.336 0.466] n=19
+learned_mean_aug|4x5s_2rec         A [0.949 0.925 0.971] Drel [0.415 0.354 0.478] n=19
+learned_mean_aug|4x5s_3rec         A [0.946 0.921 0.97 ] Drel [0.414 0.349 0.478] n=19
+learned_mean_aug|lq_base4          A [0.953 0.931 0.973] Drel [0.418 0.359 0.479] n=19
+learned_mean_aug|lq_jit_m2         A [0.956 0.934 0.976] Drel [0.426 0.364 0.488] n=19
+learned_mean_aug|lq_jit_m4         A [0.959 0.939 0.977] Drel [0.428 0.367 0.49 ] n=19
+learned_mean_aug|lq_wp_m2          A [0.932 0.905 0.957] Drel [0.342 0.289 0.394] n=19
+learned_mean_aug|lq_wp_m4          A [0.901 0.868 0.931] Drel [0.272 0.228 0.315] n=19
+learned_mean_aug|own_1x20s         A [0.967 0.952 0.979] Drel [0.506 0.453 0.557] n=19
+learned_gated|1x20s_1rec           A [0.904 0.866 0.937] Drel [0.353 0.292 0.414] n=19
+learned_gated|2x10s_1rec           A [0.914 0.878 0.946] Drel [0.373 0.314 0.433] n=19
+learned_gated|4x5s_1rec            A [0.92  0.886 0.952] Drel [0.379 0.316 0.446] n=19
+learned_gated|2x10s_2rec           A [0.93  0.899 0.958] Drel [0.386 0.325 0.448] n=19
+learned_gated|4x5s_2rec            A [0.94  0.913 0.965] Drel [0.4   0.342 0.461] n=19
+learned_gated|4x5s_3rec            A [0.939 0.91  0.964] Drel [0.399 0.338 0.46 ] n=19
+learned_gated|lq_base4             A [0.944 0.919 0.967] Drel [0.406 0.349 0.463] n=19
+learned_gated|lq_jit_m2            A [0.949 0.925 0.971] Drel [0.413 0.353 0.471] n=19
+learned_gated|lq_jit_m4            A [0.952 0.928 0.973] Drel [0.413 0.355 0.472] n=19
+learned_gated|lq_wp_m2             A [0.924 0.895 0.951] Drel [0.332 0.282 0.384] n=19
+learned_gated|lq_wp_m4             A [0.89  0.857 0.921] Drel [0.264 0.221 0.308] n=19
+learned_gated|own_1x20s            A [0.964 0.949 0.976] Drel [0.493 0.441 0.544] n=19
+desc_mean|2x10s_1rec - 1x20s_1rec                    dA [ 0.005 -0.007  0.017] dDrel [ 0.015 -0.007  0.037]
+desc_mean|4x5s_1rec - 1x20s_1rec                     dA [0.027 0.008 0.048] dDrel [0.04  0.014 0.068]
+desc_mean|2x10s_2rec - 1x20s_1rec                    dA [0.024 0.008 0.041] dDrel [0.051 0.029 0.075]
+desc_mean|4x5s_2rec - 1x20s_1rec                     dA [0.029 0.011 0.048] dDrel [0.044 0.02  0.07 ]
+desc_mean|4x5s_3rec - 1x20s_1rec                     dA [0.035 0.02  0.051] dDrel [0.052 0.03  0.074]
+desc_mean|4x5s_3rec - 4x5s_1rec                      dA [ 0.008 -0.004  0.02 ] dDrel [ 0.012 -0.002  0.026]
+desc_mean|own_1x20s - 1x20s_1rec                     dA [0.067 0.042 0.095] dDrel [0.11  0.071 0.152]
+desc_mean|lq_jit_m2 - lq_base4                       dA [-0.024 -0.077  0.025] dDrel [-0.046 -0.095  0.001]
+desc_mean|lq_jit_m4 - lq_base4                       dA [-0.04  -0.11   0.021] dDrel [-0.06  -0.116 -0.007]
+desc_mean|lq_wp_m2 - lq_base4                        dA [-0.014 -0.024 -0.004] dDrel [-0.006 -0.025  0.01 ]
+desc_mean|lq_wp_m4 - lq_base4                        dA [-0.034 -0.047 -0.02 ] dDrel [-0.026 -0.056  0.001]
+desc_median|2x10s_1rec - 1x20s_1rec                  dA [ 0.013 -0.     0.026] dDrel [0.027 0.004 0.051]
+desc_median|4x5s_1rec - 1x20s_1rec                   dA [0.035 0.017 0.054] dDrel [0.053 0.029 0.079]
+desc_median|2x10s_2rec - 1x20s_1rec                  dA [0.03  0.013 0.048] dDrel [0.061 0.039 0.085]
+desc_median|4x5s_2rec - 1x20s_1rec                   dA [0.033 0.016 0.052] dDrel [0.058 0.034 0.084]
+desc_median|4x5s_3rec - 1x20s_1rec                   dA [0.042 0.025 0.059] dDrel [0.065 0.041 0.089]
+desc_median|4x5s_3rec - 4x5s_1rec                    dA [ 0.007 -0.005  0.021] dDrel [ 0.013 -0.003  0.031]
+desc_median|own_1x20s - 1x20s_1rec                   dA [0.067 0.043 0.094] dDrel [0.111 0.072 0.154]
+desc_median|lq_jit_m2 - lq_base4                     dA [ 0.    -0.028  0.027] dDrel [-0.012 -0.044  0.019]
+desc_median|lq_jit_m4 - lq_base4                     dA [-0.032 -0.102  0.034] dDrel [-0.062 -0.121 -0.009]
+desc_median|lq_wp_m2 - lq_base4                      dA [-0.01  -0.02   0.001] dDrel [-0.002 -0.017  0.014]
+desc_median|lq_wp_m4 - lq_base4                      dA [-0.034 -0.049 -0.019] dDrel [-0.021 -0.047  0.004]
+si_latent|2x10s_1rec - 1x20s_1rec                    dA [ 0.004 -0.003  0.012] dDrel [ 0.01  -0.005  0.024]
+si_latent|4x5s_1rec - 1x20s_1rec                     dA [ 0.006 -0.002  0.014] dDrel [ 0.011 -0.007  0.026]
+si_latent|2x10s_2rec - 1x20s_1rec                    dA [0.01  0.003 0.017] dDrel [0.022 0.009 0.033]
+si_latent|4x5s_2rec - 1x20s_1rec                     dA [0.015 0.008 0.023] dDrel [0.032 0.012 0.047]
+si_latent|4x5s_3rec - 1x20s_1rec                     dA [0.009 0.001 0.016] dDrel [ 0.019 -0.002  0.038]
+si_latent|4x5s_3rec - 4x5s_1rec                      dA [ 0.002 -0.008  0.011] dDrel [ 0.008 -0.014  0.029]
+si_latent|own_1x20s - 1x20s_1rec                     dA [0.031 0.013 0.055] dDrel [0.095 0.054 0.151]
+si_latent|lq_wp_m2 - lq_base4                        dA [-0.046 -0.067 -0.022] dDrel [-0.165 -0.195 -0.13 ]
+si_latent|lq_wp_m4 - lq_base4                        dA [-0.093 -0.127 -0.055] dDrel [-0.285 -0.325 -0.237]
+si_expr|2x10s_1rec - 1x20s_1rec                      dA [ 0.011 -0.003  0.023] dDrel [ 0.015 -0.001  0.029]
+si_expr|4x5s_1rec - 1x20s_1rec                       dA [ 0.018 -0.006  0.037] dDrel [ 0.022 -0.004  0.039]
+si_expr|2x10s_2rec - 1x20s_1rec                      dA [0.028 0.015 0.042] dDrel [0.026 0.015 0.037]
+si_expr|4x5s_2rec - 1x20s_1rec                       dA [0.041 0.027 0.056] dDrel [0.043 0.033 0.052]
+si_expr|4x5s_3rec - 1x20s_1rec                       dA [0.046 0.031 0.061] dDrel [0.045 0.034 0.056]
+si_expr|4x5s_3rec - 4x5s_1rec                        dA [0.028 0.008 0.055] dDrel [0.024 0.005 0.048]
+si_expr|own_1x20s - 1x20s_1rec                       dA [0.049 0.025 0.077] dDrel [0.095 0.067 0.126]
+si_expr|lq_wp_m2 - lq_base4                          dA [-0.013 -0.021 -0.004] dDrel [-0.103 -0.114 -0.091]
+si_expr|lq_wp_m4 - lq_base4                          dA [-0.047 -0.062 -0.032] dDrel [-0.183 -0.202 -0.163]
+si_hyper|2x10s_1rec - 1x20s_1rec                     dA [-0.003 -0.013  0.004] dDrel [ 0.008 -0.004  0.02 ]
+si_hyper|4x5s_1rec - 1x20s_1rec                      dA [-0.005 -0.019  0.005] dDrel [ 0.005 -0.013  0.021]
+si_hyper|2x10s_2rec - 1x20s_1rec                     dA [0.017 0.003 0.034] dDrel [0.028 0.018 0.04 ]
+si_hyper|4x5s_2rec - 1x20s_1rec                      dA [0.014 0.003 0.028] dDrel [0.033 0.022 0.045]
+si_hyper|4x5s_3rec - 1x20s_1rec                      dA [0.021 0.004 0.045] dDrel [0.043 0.03  0.057]
+si_hyper|4x5s_3rec - 4x5s_1rec                       dA [0.026 0.    0.058] dDrel [0.038 0.021 0.06 ]
+si_hyper|own_1x20s - 1x20s_1rec                      dA [0.036 0.004 0.081] dDrel [0.15  0.1   0.209]
+si_hyper|lq_wp_m2 - lq_base4                         dA [-0.001 -0.008  0.005] dDrel [-0.158 -0.179 -0.135]
+si_hyper|lq_wp_m4 - lq_base4                         dA [-0.014 -0.027 -0.004] dDrel [-0.28  -0.313 -0.243]
+learned_mean|2x10s_1rec - 1x20s_1rec                 dA [0.008 0.004 0.014] dDrel [0.019 0.013 0.027]
+learned_mean|4x5s_1rec - 1x20s_1rec                  dA [0.009 0.003 0.015] dDrel [0.022 0.015 0.03 ]
+learned_mean|2x10s_2rec - 1x20s_1rec                 dA [0.025 0.013 0.038] dDrel [0.036 0.025 0.048]
+learned_mean|4x5s_2rec - 1x20s_1rec                  dA [0.033 0.02  0.047] dDrel [0.051 0.041 0.062]
+learned_mean|4x5s_3rec - 1x20s_1rec                  dA [0.031 0.017 0.046] dDrel [0.048 0.031 0.065]
+learned_mean|4x5s_3rec - 4x5s_1rec                   dA [0.022 0.008 0.038] dDrel [0.026 0.01  0.041]
+learned_mean|own_1x20s - 1x20s_1rec                  dA [0.058 0.029 0.092] dDrel [0.138 0.094 0.187]
+learned_mean|lq_jit_m2 - lq_base4                    dA [0.004 0.    0.009] dDrel [ 0.004 -0.001  0.009]
+learned_mean|lq_jit_m4 - lq_base4                    dA [0.007 0.003 0.011] dDrel [ 0.003 -0.003  0.009]
+learned_mean|lq_wp_m2 - lq_base4                     dA [-0.021 -0.028 -0.015] dDrel [-0.077 -0.087 -0.068]
+learned_mean|lq_wp_m4 - lq_base4                     dA [-0.052 -0.065 -0.039] dDrel [-0.143 -0.163 -0.125]
+learned_mean_aug|2x10s_1rec - 1x20s_1rec             dA [0.008 0.005 0.011] dDrel [0.02  0.013 0.027]
+learned_mean_aug|4x5s_1rec - 1x20s_1rec              dA [0.013 0.009 0.018] dDrel [0.027 0.021 0.034]
+learned_mean_aug|2x10s_2rec - 1x20s_1rec             dA [0.024 0.015 0.035] dDrel [0.036 0.027 0.046]
+learned_mean_aug|4x5s_2rec - 1x20s_1rec              dA [0.034 0.021 0.047] dDrel [0.05  0.043 0.06 ]
+learned_mean_aug|4x5s_3rec - 1x20s_1rec              dA [0.031 0.019 0.043] dDrel [0.049 0.035 0.063]
+learned_mean_aug|4x5s_3rec - 4x5s_1rec               dA [0.017 0.008 0.027] dDrel [0.022 0.008 0.035]
+learned_mean_aug|own_1x20s - 1x20s_1rec              dA [0.051 0.026 0.081] dDrel [0.141 0.094 0.193]
+learned_mean_aug|lq_jit_m2 - lq_base4                dA [0.004 0.001 0.006] dDrel [0.008 0.004 0.011]
+learned_mean_aug|lq_jit_m4 - lq_base4                dA [0.006 0.003 0.01 ] dDrel [0.01  0.006 0.014]
+learned_mean_aug|lq_wp_m2 - lq_base4                 dA [-0.021 -0.027 -0.014] dDrel [-0.076 -0.086 -0.067]
+learned_mean_aug|lq_wp_m4 - lq_base4                 dA [-0.052 -0.065 -0.04 ] dDrel [-0.146 -0.167 -0.126]
+learned_gated|2x10s_1rec - 1x20s_1rec                dA [0.011 0.007 0.014] dDrel [0.02  0.013 0.027]
+learned_gated|4x5s_1rec - 1x20s_1rec                 dA [0.017 0.009 0.025] dDrel [0.027 0.019 0.034]
+learned_gated|2x10s_2rec - 1x20s_1rec                dA [0.026 0.016 0.039] dDrel [0.033 0.026 0.043]
+learned_gated|4x5s_2rec - 1x20s_1rec                 dA [0.036 0.024 0.05 ] dDrel [0.048 0.041 0.054]
+learned_gated|4x5s_3rec - 1x20s_1rec                 dA [0.035 0.021 0.05 ] dDrel [0.046 0.031 0.06 ]
+learned_gated|4x5s_3rec - 4x5s_1rec                  dA [0.018 0.005 0.032] dDrel [0.019 0.003 0.035]
+learned_gated|own_1x20s - 1x20s_1rec                 dA [0.06  0.033 0.091] dDrel [0.141 0.099 0.188]
+learned_gated|lq_jit_m2 - lq_base4                   dA [0.005 0.001 0.009] dDrel [0.007 0.003 0.011]
+learned_gated|lq_jit_m4 - lq_base4                   dA [0.007 0.002 0.013] dDrel [0.007 0.002 0.013]
+learned_gated|lq_wp_m2 - lq_base4                    dA [-0.02  -0.028 -0.014] dDrel [-0.073 -0.084 -0.065]
+learned_gated|lq_wp_m4 - lq_base4                    dA [-0.055 -0.068 -0.042] dDrel [-0.142 -0.162 -0.123]
+learned_gated - learned_mean|1x20s_1rec              dA [-0.004 -0.019  0.01 ] dDrel [-0.019 -0.04   0.001]
+learned_gated - learned_mean_aug|1x20s_1rec          dA [-0.012 -0.022 -0.003] dDrel [-0.012 -0.026  0.001]
+learned_mean_aug - learned_mean|1x20s_1rec           dA [ 0.008 -0.001  0.018] dDrel [-0.007 -0.026  0.012]
+desc_median - desc_mean|1x20s_1rec                   dA [-0.011 -0.019 -0.003] dDrel [-0.011 -0.021 -0.001]
+learned_mean - desc_mean|1x20s_1rec                  dA [0.305 0.253 0.355] dDrel [0.329 0.253 0.399]
+si_latent - desc_mean|1x20s_1rec                     dA [0.336 0.28  0.385] dDrel [0.539 0.449 0.626]
+learned_gated - learned_mean|2x10s_1rec              dA [-0.002 -0.014  0.01 ] dDrel [-0.018 -0.037  0.   ]
+learned_gated - learned_mean_aug|2x10s_1rec          dA [-0.01  -0.018 -0.002] dDrel [-0.012 -0.027  0.002]
+learned_mean_aug - learned_mean|2x10s_1rec           dA [0.008 0.    0.015] dDrel [-0.006 -0.024  0.012]
+desc_median - desc_mean|2x10s_1rec                   dA [-0.003 -0.012  0.005] dDrel [ 0.001 -0.009  0.012]
+learned_mean - desc_mean|2x10s_1rec                  dA [0.309 0.259 0.357] dDrel [0.333 0.262 0.401]
+si_latent - desc_mean|2x10s_1rec                     dA [0.336 0.282 0.383] dDrel [0.534 0.442 0.619]
+learned_gated - learned_mean|4x5s_1rec               dA [ 0.004 -0.008  0.018] dDrel [-0.014 -0.034  0.006]
+learned_gated - learned_mean_aug|4x5s_1rec           dA [-0.009 -0.017 -0.001] dDrel [-0.013 -0.026  0.001]
+learned_mean_aug - learned_mean|4x5s_1rec            dA [0.013 0.003 0.024] dDrel [-0.002 -0.02   0.016]
+desc_median - desc_mean|4x5s_1rec                    dA [-0.003 -0.011  0.006] dDrel [ 0.002 -0.008  0.012]
+learned_mean - desc_mean|4x5s_1rec                   dA [0.287 0.235 0.336] dDrel [0.311 0.239 0.379]
+si_latent - desc_mean|4x5s_1rec                      dA [0.315 0.261 0.367] dDrel [0.51  0.416 0.602]
+learned_gated - learned_mean|2x10s_2rec              dA [-0.003 -0.011  0.006] dDrel [-0.021 -0.041 -0.002]
+learned_gated - learned_mean_aug|2x10s_2rec          dA [-0.01  -0.017 -0.005] dDrel [-0.014 -0.029 -0.001]
+learned_mean_aug - learned_mean|2x10s_2rec           dA [0.007 0.001 0.014] dDrel [-0.007 -0.024  0.011]
+desc_median - desc_mean|2x10s_2rec                   dA [-0.005 -0.013  0.003] dDrel [-0.001 -0.013  0.01 ]
+learned_mean - desc_mean|2x10s_2rec                  dA [0.307 0.26  0.354] dDrel [0.313 0.239 0.38 ]
+si_latent - desc_mean|2x10s_2rec                     dA [0.323 0.269 0.373] dDrel [0.509 0.418 0.593]
+learned_gated - learned_mean|4x5s_2rec               dA [-0.    -0.009  0.008] dDrel [-0.022 -0.042 -0.002]
+learned_gated - learned_mean_aug|4x5s_2rec           dA [-0.009 -0.015 -0.004] dDrel [-0.015 -0.029 -0.001]
+learned_mean_aug - learned_mean|4x5s_2rec            dA [0.009 0.001 0.017] dDrel [-0.007 -0.025  0.01 ]
+desc_median - desc_mean|4x5s_2rec                    dA [-0.006 -0.015  0.002] dDrel [ 0.002 -0.009  0.013]
+learned_mean - desc_mean|4x5s_2rec                   dA [0.31  0.264 0.353] dDrel [0.335 0.267 0.4  ]
+si_latent - desc_mean|4x5s_2rec                      dA [0.323 0.27  0.373] dDrel [0.526 0.434 0.612]
+learned_gated - learned_mean|4x5s_3rec               dA [ 0.    -0.007  0.008] dDrel [-0.02  -0.041 -0.   ]
+learned_gated - learned_mean_aug|4x5s_3rec           dA [-0.008 -0.013 -0.003] dDrel [-0.015 -0.029 -0.001]
+learned_mean_aug - learned_mean|4x5s_3rec            dA [0.008 0.001 0.016] dDrel [-0.005 -0.023  0.012]
+desc_median - desc_mean|4x5s_3rec                    dA [-0.004 -0.013  0.005] dDrel [ 0.003 -0.01   0.017]
+learned_mean - desc_mean|4x5s_3rec                   dA [0.301 0.258 0.343] dDrel [0.325 0.253 0.392]
+si_latent - desc_mean|4x5s_3rec                      dA [0.31  0.258 0.359] dDrel [0.506 0.413 0.593]
+learned_gated - learned_mean|lq_base4                dA [ 0.003 -0.005  0.011] dDrel [-0.018 -0.04   0.003]
+learned_gated - learned_mean_aug|lq_base4            dA [-0.008 -0.014 -0.003] dDrel [-0.013 -0.027  0.002]
+learned_mean_aug - learned_mean|lq_base4             dA [0.011 0.003 0.02 ] dDrel [-0.006 -0.025  0.012]
+desc_median - desc_mean|lq_base4                     dA [-0.008 -0.015  0.   ] dDrel [ 0.003 -0.008  0.014]
+learned_mean - desc_mean|lq_base4                    dA [0.312 0.266 0.358] dDrel [0.339 0.268 0.403]
+si_latent - desc_mean|lq_base4                       dA [0.323 0.27  0.373] dDrel [0.525 0.432 0.61 ]
+learned_gated - learned_mean|lq_jit_m2               dA [ 0.003 -0.004  0.012] dDrel [-0.015 -0.037  0.006]
+learned_gated - learned_mean_aug|lq_jit_m2           dA [-0.007 -0.013 -0.003] dDrel [-0.013 -0.027  0.   ]
+learned_mean_aug - learned_mean|lq_jit_m2            dA [0.01  0.003 0.02 ] dDrel [-0.002 -0.021  0.016]
+desc_median - desc_mean|lq_jit_m2                    dA [ 0.016 -0.016  0.054] dDrel [0.037 0.    0.079]
+learned_mean - desc_mean|lq_jit_m2                   dA [0.34  0.268 0.412] dDrel [0.389 0.315 0.462]
+learned_gated - learned_mean|lq_jit_m4               dA [ 0.003 -0.005  0.013] dDrel [-0.014 -0.035  0.007]
+learned_gated - learned_mean_aug|lq_jit_m4           dA [-0.007 -0.013 -0.002] dDrel [-0.015 -0.03  -0.001]
+learned_mean_aug - learned_mean|lq_jit_m4            dA [0.01  0.002 0.021] dDrel [ 0.001 -0.019  0.022]
+desc_median - desc_mean|lq_jit_m4                    dA [ 0.001 -0.029  0.03 ] dDrel [ 0.001 -0.009  0.011]
+learned_mean - desc_mean|lq_jit_m4                   dA [0.359 0.274 0.44 ] dDrel [0.402 0.331 0.47 ]
+learned_gated - learned_mean|lq_wp_m2                dA [ 0.004 -0.007  0.016] dDrel [-0.015 -0.035  0.005]
+learned_gated - learned_mean_aug|lq_wp_m2            dA [-0.008 -0.015 -0.001] dDrel [-0.009 -0.023  0.004]
+learned_mean_aug - learned_mean|lq_wp_m2             dA [0.012 0.002 0.022] dDrel [-0.005 -0.024  0.013]
+desc_median - desc_mean|lq_wp_m2                     dA [-0.004 -0.012  0.005] dDrel [ 0.007 -0.006  0.021]
+learned_mean - desc_mean|lq_wp_m2                    dA [0.304 0.256 0.35 ] dDrel [0.268 0.208 0.325]
+si_latent - desc_mean|lq_wp_m2                       dA [0.291 0.241 0.339] dDrel [0.365 0.297 0.429]
+learned_gated - learned_mean|lq_wp_m4                dA [-0.    -0.012  0.013] dDrel [-0.017 -0.036  0.001]
+learned_gated - learned_mean_aug|lq_wp_m4            dA [-0.011 -0.019 -0.004] dDrel [-0.008 -0.021  0.004]
+learned_mean_aug - learned_mean|lq_wp_m4             dA [0.011 0.001 0.022] dDrel [-0.008 -0.025  0.008]
+desc_median - desc_mean|lq_wp_m4                     dA [-0.008 -0.015  0.   ] dDrel [ 0.008 -0.007  0.023]
+learned_mean - desc_mean|lq_wp_m4                    dA [0.294 0.247 0.338] dDrel [0.222 0.172 0.268]
+si_latent - desc_mean|lq_wp_m4                       dA [0.263 0.203 0.318] dDrel [0.266 0.209 0.317]
+learned_gated - learned_mean|own_1x20s               dA [-0.002 -0.009  0.005] dDrel [-0.016 -0.033 -0.001]
+learned_gated - learned_mean_aug|own_1x20s           dA [-0.004 -0.01   0.002] dDrel [-0.013 -0.024 -0.002]
+learned_mean_aug - learned_mean|own_1x20s            dA [ 0.002 -0.004  0.008] dDrel [-0.004 -0.02   0.014]
+desc_median - desc_mean|own_1x20s                    dA [-0.011 -0.019 -0.003] dDrel [-0.01  -0.022  0.002]
+learned_mean - desc_mean|own_1x20s                   dA [0.296 0.25  0.343] dDrel [0.357 0.292 0.421]
+si_latent - desc_mean|own_1x20s                      dA [0.3   0.252 0.348] dDrel [0.524 0.441 0.604]
+attention {'lq_jit_m2': {'alpha_corrupt': 0.16611580550670624, 'alpha_clean': 0.16694208979606628, 'n': 1900}, 'lq_jit_m4': {'alpha_corrupt': 0.12478218972682953, 'alpha_clean': 0.12521781027317047, 'n': 1900}, 'lq_wp_m2': {'alpha_corrupt': 0.16318127512931824, 'alpha_clean': 0.16840936243534088, 'n': 1900}, 'lq_wp_m4': {'alpha_corrupt': 0.12336927652359009, 'alpha_clean': 0.1266307234764099, 'n': 1900}}
+saved (186s)
+DONE exit=0

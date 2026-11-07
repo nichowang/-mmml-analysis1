@@ -1,0 +1,31 @@
+archive 45 attempt 1 failed: <HTTPError 404: 'Not Found'>; retry in 30s
+archive 55 attempt 1 failed: <HTTPError 404: 'Not Found'>; retry in 30s
+archive 40 attempt 1 failed: <HTTPError 404: 'Not Found'>; retry in 30s
+archive 50 attempt 1 failed: <HTTPError 404: 'Not Found'>; retry in 30s
+data/0000_0035: kept 24 files
+data/0000_0030: kept 22 files
+data/0000_0031: kept 24 files
+data/0000_0036: kept 22 files
+data/0000_0032: kept 26 files
+archive 45 attempt 2 failed: <HTTPError 404: 'Not Found'>; retry in 60s
+archive 55 attempt 2 failed: <HTTPError 404: 'Not Found'>; retry in 60s
+archive 40 attempt 2 failed: <HTTPError 404: 'Not Found'>; retry in 60s
+archive 50 attempt 2 failed: <HTTPError 404: 'Not Found'>; retry in 60s
+data/0000_0037: kept 26 files
+data/0000_0033: kept 20 files
+data/0000_0038: kept 22 files
+data/0000_0039: kept 4 files
+data/0000_0034: kept 26 files
+archive 45 attempt 3 failed: <HTTPError 404: 'Not Found'>; retry in 120s
+archive 40 attempt 3 failed: <HTTPError 404: 'Not Found'>; retry in 120s
+archive 55 attempt 3 failed: <HTTPError 404: 'Not Found'>; retry in 120s
+archive 50 attempt 3 failed: <HTTPError 404: 'Not Found'>; retry in 120s
+archive 40 attempt 4 failed: <HTTPError 404: 'Not Found'>; retry in 240s
+archive 50 attempt 4 failed: <HTTPError 404: 'Not Found'>; retry in 240s
+archive 45 attempt 4 failed: <HTTPError 404: 'Not Found'>; retry in 240s
+archive 55 attempt 4 failed: <HTTPError 404: 'Not Found'>; retry in 240s
+archive 40 attempt 5 failed: <HTTPError 404: 'Not Found'>; retry in 480s
+archive 50 attempt 5 failed: <HTTPError 404: 'Not Found'>; retry in 480s
+archive 55 attempt 5 failed: <HTTPError 404: 'Not Found'>; retry in 480s
+archive 45 attempt 5 failed: <HTTPError 404: 'Not Found'>; retry in 480s
+slurmstepd: error: *** JOB 49417701 ON v003 CANCELLED AT 2026-10-18T14:48:59 ***

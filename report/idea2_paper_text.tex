@@ -1,0 +1,33 @@
+% Replaces the whole "Reference selection (Idea 2)" block in Section 4.
+% Numbers: results/extended_a0-9/analysis1_results.json (refsel), results/idea2_a0-9/analysis2_results.json.
+% Figure: figures/fig_idea2.pdf (scripts/make_figure_idea2.py results/idea2_a0-9/analysis2_results.json figures/fig_idea2).
+% Old longer version: idea2_paper_text_long.tex.bak
+
+\paragraph{Reference selection (Idea 2).}
+We compared one continuous 10\,s reference with two 5\,s clips separated by at least 10\,s. Both came from one recording of the query participant, different from the query recording. Thus splitting does not add recording contexts.
+
+\paragraph{Setup and method.}
+We used the first ten Naturalistic training archives (131 participant-side recordings, 32 participants), since the proposal archives contain only nine participants with repeated recordings. Each 5\,s block is described by bilateral wrist speed, excursion, hand height, and head angular speed on a common chest-frame skeleton, with leave-one-participant-out standardization. A reference is the equal-weight mean of its block descriptors; derivatives do not cross block boundaries. A query is a 10\,s window, and distances are Euclidean. Different-person references use the same construction and match the same-person reference within 0.10 VAD occupancy. The same-person advantage is $\Delta = \bar{d}_{\mathrm{diff}} - d_{\mathrm{same}}$; positive values favor the correct identity. Intervals use 10{,}000 participant-bootstrap resamples. To separate clip count from recording diversity, we then fixed the total reference duration at 20\,s and varied the number of clips (1, 2, 4) and source recordings (1--3) independently, using the 19 participants with at least four recordings (1{,}467 query windows). On the same subset we varied the number of random 5\,s blocks ($k = 1$--$16$), compared random with greedy farthest-point selection, and added two or four blocks from another participant.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{idea2.pdf}
+\caption{Reference composition for Idea~2 ($n = 19$ participants with at least four recordings). (a) Change in $\Delta$ relative to one continuous clip from one recording, at a fixed total duration of 20\,s. Shading indicates the number of source recordings. (b) Change in $\Delta$ relative to a single 5\,s reference as the number of randomly selected references increases. Error bars denote 95\% bootstrap intervals over participants for the paired difference.}
+\label{fig:idea2}
+\end{figure}
+
+\paragraph{Results for Idea 2.}
+Splitting a reference within one recording does not change $\Delta$. Over 31 participants, the continuous reference gives $\Delta = 0.36$ $[0.23, 0.51]$. The split reference gives $\Delta = 0.37$ $[0.25, 0.51]$. The paired difference is $0.01$ $[-0.01, 0.03]$. On the three proposal archives alone, the paired difference is $0.00$ $[-0.05, 0.06]$ over nine participants.
+
+For P0083, the largest decrease, $\Delta$ falls from $1.94$ to $1.81$. A continuous clip already separates this participant well; splitting adds no recording context.
+
+Increasing the number of clips alone does not help. Relative to one continuous 20\,s clip, dividing the same recording into two or four clips changes $\Delta$ by $0.02$, and both intervals contain zero. Increasing the number of recordings does help. Two clips from two recordings raise $\Delta$ by $0.03$ $[0.004, 0.06]$. Four clips from two recordings raise it by $0.056$ $[0.02, 0.09]$, and four clips from three recordings by $0.065$ $[0.03, 0.10]$ (Figure~\ref{fig:idea2}a).
+
+At fixed clip count, additional duration gave smaller gains than additional recordings. With random 5\,s references, $\Delta$ plateaued near eight references (Figure~\ref{fig:idea2}b).
+
+\paragraph{Implications for Idea 2.}
+Within this descriptor-based comparison, source-recording diversity helps more than splitting a fixed recording. Idea~2 should therefore vary recording count at fixed duration. Same-recording references raise $\Delta$ from $0.43$ to $0.70$ and should be treated as an upper-bound comparison.
+
+Greedy coverage selection lowers $\Delta$ by $0.13$--$0.17$ relative to random selection; selection of atypical clips is one possible explanation. Adding two/four wrong-person clips lowers it by $0.14$/$0.21$, motivating identity and tracking-quality checks.
+
+These results concern mean-pooled handcrafted descriptors, not a learned encoder. Almost all repeated recordings share a session, so persistence across sessions remains untested.

@@ -1,0 +1,50 @@
+0 746 V00_S0031_I00000134_P0047 cached
+20 746 V00_S0048_I00000373_P0073 cached
+40 746 V00_S0034_I00000384_P0053 cached
+60 746 V00_S0048_I00000378_P0073 cached
+80 746 V00_S0053_I00000502_P0083 cached
+100 746 V00_S0047_I00000309_P0071 cached
+120 746 V00_S0033_I00000487_P0052 cached
+140 746 V00_S0101_I00000520_P0149 cached
+160 746 V00_S0084_I00000482_P0123 cached
+180 746 V00_S0081_I00000376_P0117 cached
+200 746 V00_S0066_I00000139_P0099 cached
+220 746 V00_S0100_I00000134_P0146 cached
+240 746 V00_S0066_I00000309_P0099 cached
+260 746 V00_S0101_I00000510_P0149 cached
+280 746 V00_S0116_I00000379_P0169 cached
+300 746 V00_S0139_I00000385_P0201 cached
+320 746 V00_S0116_I00000373_P0169 cached
+340 746 V00_S0144_I00000135_P0206 cached
+360 746 V00_S0139_I00000377_P0200 cached
+380 746 V00_S0145_I00000487_P0074 cached
+400 746 V00_S0178_I00000138_P0243 cached
+420 746 V00_S0154_I00000125_P0220 cached
+440 746 V00_S0143_I00000481_P0205 cached
+460 746 V00_S0147_I00000374_P0209 cached
+480 746 V00_S0174_I00000135_P0241 cached
+500 746 V00_S0184_I00000515_P0101 cached
+520 746 V00_S0211_I00000385_P0286 cached
+540 746 V00_S0184_I00000514_P0254 cached
+560 746 V00_S0184_I00000500_P0254 cached
+580 746 V00_S0181_I00000132_P0248 cached
+600 746 V00_S0209_I00000135_P0280 cached
+620 746 V00_S0222_I00000375_P0304 cached
+640 746 V00_S0214_I00000132_P0290 cached
+660 746 V00_S0220_I00000137_P0300 57
+680 746 V00_S0215_I00000486_P0291 24
+700 746 V00_S0220_I00000135_P0300 34
+720 746 V00_S0223_I00000377_P0306 21
+740 746 V00_S0218_I00000520_P0297 93
+done 746
+Traceback (most recent call last):
+  File "/ocean/projects/cis250037p/ywang134/mmml-analysis1/scripts/idea2_midterm.py", line 485, in <module>
+    main(sys.argv[1], sys.argv[2], sys.argv[3], int(sys.argv[4]) if len(sys.argv) > 4 else 4000)
+  File "/ocean/projects/cis250037p/ywang134/mmml-analysis1/scripts/idea2_midterm.py", line 249, in main
+    R = load(cache, data)
+  File "/ocean/projects/cis250037p/ywang134/mmml-analysis1/scripts/idea2_midterm.py", line 71, in load
+    good = (z["vf"] >= MIN_VALID) & (z["vm"] >= MIN_VALID) & ~np.isnan(z["desc"]).any(1) \
+  File "/ocean/projects/cis250037p/ywang134/envs/aw310/lib/python3.10/site-packages/numpy/core/_methods.py", line 58, in _any
+    return umr_any(a, axis, dtype, out, keepdims)
+numpy.exceptions.AxisError: axis 1 is out of bounds for array of dimension 1
+DONE exit=1

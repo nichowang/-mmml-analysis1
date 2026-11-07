@@ -1,0 +1,6 @@
+# re-downloadable from facebook/seamless-interaction (see scripts/download.py)
+data/
+cache/
+node_modules/
+__pycache__/
+Screenshot*

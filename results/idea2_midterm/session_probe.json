@@ -1,0 +1,78 @@
+{
+ "posture|P0047": {
+  "other_people": {
+   "mean": 11.986858022890498,
+   "n": 8000
+  },
+  "same_session": {
+   "mean": 10.624548747011008,
+   "n": 128
+  },
+  "other_session": {
+   "mean": 10.989426394026927,
+   "n": 192
+  },
+  "sessions": [
+   "S0031",
+   "S0051"
+  ],
+  "frac_other_people_closer_than_other_session": 0.44175
+ },
+ "posture|P0048": {
+  "other_people": {
+   "mean": 10.811569625841274,
+   "n": 7112
+  },
+  "other_session": {
+   "mean": 8.317800530873097,
+   "n": 88
+  },
+  "same_session": {
+   "mean": 7.027389609684053,
+   "n": 80
+  },
+  "sessions": [
+   "S0031",
+   "S0063"
+  ],
+  "frac_other_people_closer_than_other_session": 0.14285714285714285
+ },
+ "desc|P0047": {
+  "other_people": {
+   "mean": 3.141798192642629,
+   "n": 8000
+  },
+  "same_session": {
+   "mean": 3.0836061984300613,
+   "n": 128
+  },
+  "other_session": {
+   "mean": 2.6538604022935033,
+   "n": 192
+  },
+  "sessions": [
+   "S0031",
+   "S0051"
+  ],
+  "frac_other_people_closer_than_other_session": 0.370375
+ },
+ "desc|P0048": {
+  "other_people": {
+   "mean": 2.9626991119868507,
+   "n": 7112
+  },
+  "other_session": {
+   "mean": 2.642558793452653,
+   "n": 88
+  },
+  "same_session": {
+   "mean": 2.990386215597391,
+   "n": 80
+  },
+  "sessions": [
+   "S0031",
+   "S0063"
+  ],
+  "frac_other_people_closer_than_other_session": 0.43658605174353204
+ }
+}

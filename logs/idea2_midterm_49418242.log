@@ -1,0 +1,232 @@
+0 746 V00_S0030_I00000126_P0045 cached
+20 746 V00_S0052_I00000135_P0080 cached
+40 746 V00_S0034_I00000384_P0053 cached
+60 746 V00_S0048_I00000383_P0073 cached
+80 746 V00_S0053_I00000502_P0083 cached
+100 746 V00_S0047_I00000309_P0071 cached
+120 746 V00_S0033_I00000487_P0052 cached
+140 746 V00_S0099_I00000379_P0145 52
+160 746 V00_S0069_I00000135_P0104 38
+180 746 V00_S0066_I00000134_P0100 24
+200 746 V00_S0082_I00000495_P0119 56
+220 746 V00_S0082_I00000478_P0119 43
+240 746 V00_S0101_I00000486_P0149 31
+260 746 V00_S0120_I00000134_P0069 24
+280 746 V00_S0139_I00000382_P0201 35
+300 746 V00_S0122_I00000140_P0179 39
+320 746 V00_S0111_I00000486_P0161 27
+340 746 V00_S0124_I00000377_P0183 27
+360 746 V00_S0118_I00000128_P0174 36
+380 746 V00_S0145_I00000487_P0074 19
+400 746 V00_S0178_I00000138_P0243 39
+420 746 V00_S0146_I00000139_P0048 71
+440 746 V00_S0177_I00000538_P0122 56
+460 746 V00_S0174_I00000378_P0042 36
+480 746 V00_S0151_I00000484_P0214 29
+500 746 V00_S0182_I00000138_P0071 24
+520 746 V00_S0186_I00000481_P0042 49
+540 746 V00_S0184_I00000488_P0254 47
+560 746 V00_S0184_I00000500_P0254 24
+580 746 V00_S0210_I00000135_P0283 38
+600 746 V00_S0187_I00000487_P0258 25
+620 746 V00_S0214_I00000125_P0290 33
+640 746 V00_S0244_I00000135_P0333 44
+multiprocessing.pool.RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "/ocean/projects/cis250037p/ywang134/envs/aw310/lib/python3.10/multiprocessing/pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+  File "/ocean/projects/cis250037p/ywang134/mmml-analysis1/scripts/idea2_features.py", line 65, in one
+    hstep = T / len(hyp)
+ZeroDivisionError: division by zero
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/ocean/projects/cis250037p/ywang134/mmml-analysis1/scripts/idea2_features.py", line 102, in <module>
+    for i, (rid, r) in enumerate(pool.imap_unordered(one, [(f, out) for f in files])):
+  File "/ocean/projects/cis250037p/ywang134/envs/aw310/lib/python3.10/multiprocessing/pool.py", line 873, in next
+    raise value
+ZeroDivisionError: division by zero
+646 recordings loaded (6s)
+eval participants 32 (main 19), extra-only 126, overlap 10
+fold 0: test 9 (5 query), train participants 149
+  312 queries, sets built
+  [mean] step 0 loss 2.453 acc 0.46
+  [mean] step 500 loss 0.454 acc 0.90
+  [mean] step 1000 loss 0.088 acc 1.00
+  [mean] step 1500 loss 0.099 acc 0.98
+  [mean] step 2000 loss 0.033 acc 1.00
+  [mean] step 2500 loss 0.035 acc 1.00
+  [mean] step 3000 loss 0.022 acc 1.00
+  [mean] step 3500 loss 0.015 acc 1.00
+  [mean] step 3999 loss 0.016 acc 1.00
+/ocean/projects/cis250037p/ywang134/envs/aw310/lib/python3.10/site-packages/torch/nn/modules/transformer.py:505: UserWarning: The PyTorch API of nested tensors is in prototype stage and will change in the near future. We recommend specifying layout=torch.jagged when constructing a nested tensor, as this layout receives active development, has better operator coverage, and works with torch.compile. (Triggered internally at /pytorch/aten/src/ATen/NestedTensorImpl.cpp:178.)
+  output = torch._nested_tensor_from_mask(
+  [mean_aug] step 0 loss 2.178 acc 0.50
+  [mean_aug] step 500 loss 0.785 acc 0.83
+  [mean_aug] step 1000 loss 0.378 acc 0.90
+  [mean_aug] step 1500 loss 0.454 acc 0.88
+  [mean_aug] step 2000 loss 0.287 acc 0.96
+  [mean_aug] step 2500 loss 0.294 acc 0.94
+  [mean_aug] step 3000 loss 0.237 acc 0.92
+  [mean_aug] step 3500 loss 0.189 acc 0.96
+  [mean_aug] step 3999 loss 0.268 acc 0.92
+  [gated] step 0 loss 2.869 acc 0.38
+  [gated] step 500 loss 0.874 acc 0.83
+  [gated] step 1000 loss 0.498 acc 0.90
+  [gated] step 1500 loss 0.698 acc 0.81
+  [gated] step 2000 loss 0.415 acc 0.90
+  [gated] step 2500 loss 0.388 acc 0.92
+  [gated] step 3000 loss 0.305 acc 0.90
+  [gated] step 3500 loss 0.216 acc 0.94
+  [gated] step 3999 loss 0.279 acc 0.94
+  [dyn_mean] step 0 loss 3.892 acc 0.04
+  [dyn_mean] step 500 loss 2.402 acc 0.38
+  [dyn_mean] step 1000 loss 1.286 acc 0.69
+  [dyn_mean] step 1500 loss 0.959 acc 0.75
+  [dyn_mean] step 2000 loss 0.606 acc 0.83
+  [dyn_mean] step 2500 loss 0.626 acc 0.83
+  [dyn_mean] step 3000 loss 0.473 acc 0.88
+  [dyn_mean] step 3500 loss 0.627 acc 0.79
+  [dyn_mean] step 3999 loss 0.485 acc 0.85
+  [dyn_gated] step 0 loss 4.156 acc 0.04
+  [dyn_gated] step 500 loss 2.601 acc 0.27
+  [dyn_gated] step 1000 loss 1.898 acc 0.56
+  [dyn_gated] step 1500 loss 1.642 acc 0.67
+  [dyn_gated] step 2000 loss 1.414 acc 0.69
+  [dyn_gated] step 2500 loss 1.025 acc 0.77
+  [dyn_gated] step 3000 loss 1.267 acc 0.65
+  [dyn_gated] step 3500 loss 0.846 acc 0.85
+  [dyn_gated] step 3999 loss 1.266 acc 0.67
+  models trained (321s)
+  desc_mean          A(1x20s) P0047:0.71 P0052:0.68 P0056:0.52 P0074:0.65 P0075:0.53
+  desc_median        A(1x20s) P0047:0.72 P0052:0.66 P0056:0.51 P0074:0.66 P0075:0.52
+  si_latent          A(1x20s) P0047:0.75 P0052:0.98 P0056:0.99 P0074:0.95 P0075:0.98
+  si_expr            A(1x20s) P0047:0.87 P0052:0.97 P0056:0.96 P0074:0.87 P0075:0.81
+  si_hyper           A(1x20s) P0047:0.65 P0052:0.99 P0056:1.00 P0074:1.00 P0075:1.00
+  posture_static     A(1x20s) P0047:0.67 P0052:0.87 P0056:0.58 P0074:0.77 P0075:0.71
+  learned_mean       A(1x20s) P0047:0.69 P0052:0.95 P0056:0.84 P0074:0.89 P0075:0.96
+  learned_mean_aug   A(1x20s) P0047:0.69 P0052:0.99 P0056:0.89 P0074:0.94 P0075:0.96
+  learned_gated      A(1x20s) P0047:0.62 P0052:0.98 P0056:0.85 P0074:0.97 P0075:0.92
+  learned_dyn_mean   A(1x20s) P0047:0.74 P0052:0.96 P0056:0.92 P0074:0.93 P0075:0.95
+  learned_dyn_gated  A(1x20s) P0047:0.77 P0052:0.95 P0056:0.90 P0074:0.91 P0075:0.94
+fold 1: test 8 (5 query), train participants 150
+  349 queries, sets built
+  [mean] step 0 loss 2.371 acc 0.58
+  [mean] step 500 loss 0.317 acc 0.96
+  [mean] step 1000 loss 0.114 acc 1.00
+  [mean] step 1500 loss 0.145 acc 0.98
+  [mean] step 2000 loss 0.031 acc 1.00
+  [mean] step 2500 loss 0.027 acc 1.00
+  [mean] step 3000 loss 0.034 acc 1.00
+  [mean] step 3500 loss 0.014 acc 1.00
+  [mean] step 3999 loss 0.019 acc 1.00
+  [mean_aug] step 0 loss 2.414 acc 0.46
+  [mean_aug] step 500 loss 0.883 acc 0.79
+  [mean_aug] step 1000 loss 0.420 acc 0.90
+  [mean_aug] step 1500 loss 0.342 acc 0.88
+  [mean_aug] step 2000 loss 0.250 acc 0.94
+  [mean_aug] step 2500 loss 0.222 acc 0.96
+  [mean_aug] step 3000 loss 0.263 acc 0.92
+  [mean_aug] step 3500 loss 0.282 acc 0.92
+  [mean_aug] step 3999 loss 0.166 acc 0.94
+  [gated] step 0 loss 3.043 acc 0.40
+  [gated] step 500 loss 1.158 acc 0.75
+  [gated] step 1000 loss 0.669 acc 0.88
+  [gated] step 1500 loss 0.430 acc 0.94
+  [gated] step 2000 loss 0.363 acc 0.94
+  [gated] step 2500 loss 0.401 acc 0.88
+  [gated] step 3000 loss 0.320 acc 0.96
+  [gated] step 3500 loss 0.306 acc 0.94
+  [gated] step 3999 loss 0.222 acc 0.96
+  [dyn_mean] step 0 loss 3.932 acc 0.08
+  [dyn_mean] step 500 loss 2.362 acc 0.46
+  [dyn_mean] step 1000 loss 1.032 acc 0.71
+  [dyn_mean] step 1500 loss 1.104 acc 0.69
+  [dyn_mean] step 2000 loss 0.817 acc 0.75
+  [dyn_mean] step 2500 loss 0.536 acc 0.90
+  [dyn_mean] step 3000 loss 0.629 acc 0.83
+  [dyn_mean] step 3500 loss 0.352 acc 0.92
+  [dyn_mean] step 3999 loss 0.506 acc 0.85
+  [dyn_gated] step 0 loss 4.205 acc 0.02
+  [dyn_gated] step 500 loss 3.082 acc 0.25
+  [dyn_gated] step 1000 loss 1.964 acc 0.54
+  [dyn_gated] step 1500 loss 1.425 acc 0.67
+  [dyn_gated] step 2000 loss 1.395 acc 0.69
+  [dyn_gated] step 2500 loss 1.135 acc 0.69
+  [dyn_gated] step 3000 loss 1.212 acc 0.65
+  [dyn_gated] step 3500 loss 1.256 acc 0.67
+  [dyn_gated] step 3999 loss 0.743 acc 0.85
+  models trained (628s)
+  desc_mean          A(1x20s) P0048:0.43 P0057:0.54 P0069:0.59 P0070:0.61 P0073:0.60
+  desc_median        A(1x20s) P0048:0.41 P0057:0.53 P0069:0.56 P0070:0.58 P0073:0.56
+  si_latent          A(1x20s) P0048:0.90 P0057:0.95 P0069:1.00 P0070:0.90 P0073:0.90
+  si_expr            A(1x20s) P0048:0.99 P0057:0.90 P0069:0.97 P0070:0.79 P0073:0.92
+  si_hyper           A(1x20s) P0048:0.84 P0057:1.00 P0069:0.97 P0070:0.87 P0073:1.00
+  posture_static     A(1x20s) P0048:0.82 P0057:0.91 P0069:0.94 P0070:0.89 P0073:0.92
+  learned_mean       A(1x20s) P0048:0.86 P0057:1.00 P0069:0.96 P0070:0.91 P0073:1.00
+  learned_mean_aug   A(1x20s) P0048:0.94 P0057:1.00 P0069:0.99 P0070:0.88 P0073:1.00
+  learned_gated      A(1x20s) P0048:0.96 P0057:1.00 P0069:1.00 P0070:0.89 P0073:1.00
+  learned_dyn_mean   A(1x20s) P0048:0.94 P0057:0.98 P0069:0.95 P0070:0.93 P0073:1.00
+  learned_dyn_gated  A(1x20s) P0048:0.94 P0057:0.99 P0069:0.93 P0070:0.93 P0073:1.00
+fold 2: test 8 (5 query), train participants 150
+  370 queries, sets built
+  [mean] step 0 loss 2.778 acc 0.44
+  [mean] step 500 loss 0.333 acc 0.92
+  [mean] step 1000 loss 0.141 acc 0.98
+  [mean] step 1500 loss 0.177 acc 0.98
+  [mean] step 2000 loss 0.052 acc 1.00
+  [mean] step 2500 loss 0.029 acc 1.00
+  [mean] step 3000 loss 0.024 acc 1.00
+  [mean] step 3500 loss 0.034 acc 1.00
+  [mean] step 3999 loss 0.021 acc 1.00
+  [mean_aug] step 0 loss 2.781 acc 0.48
+  [mean_aug] step 500 loss 0.745 acc 0.83
+  [mean_aug] step 1000 loss 0.381 acc 0.92
+  [mean_aug] step 1500 loss 0.506 acc 0.90
+  [mean_aug] step 2000 loss 0.506 acc 0.85
+  [mean_aug] step 2500 loss 0.179 acc 0.92
+  [mean_aug] step 3000 loss 0.264 acc 0.94
+  [mean_aug] step 3500 loss 0.175 acc 0.96
+  [mean_aug] step 3999 loss 0.214 acc 0.94
+  [gated] step 0 loss 2.978 acc 0.44
+  [gated] step 500 loss 1.002 acc 0.83
+  [gated] step 1000 loss 0.540 acc 0.94
+  [gated] step 1500 loss 0.611 acc 0.85
+  [gated] step 2000 loss 0.517 acc 0.88
+  [gated] step 2500 loss 0.271 acc 0.96
+  [gated] step 3000 loss 0.425 acc 0.90
+  [gated] step 3500 loss 0.382 acc 0.94
+  [gated] step 3999 loss 0.255 acc 0.96
+  [dyn_mean] step 0 loss 3.815 acc 0.02
+  [dyn_mean] step 500 loss 2.363 acc 0.31
+  [dyn_mean] step 1000 loss 1.456 acc 0.65
+  [dyn_mean] step 1500 loss 1.047 acc 0.69
+  [dyn_mean] step 2000 loss 1.163 acc 0.60
+  [dyn_mean] step 2500 loss 0.787 acc 0.77
+  [dyn_mean] step 3000 loss 0.691 acc 0.81
+  [dyn_mean] step 3500 loss 0.715 acc 0.75
+  [dyn_mean] step 3999 loss 0.533 acc 0.85
+  [dyn_gated] step 0 loss 4.072 acc 0.06
+  [dyn_gated] step 500 loss 2.983 acc 0.27
+  [dyn_gated] step 1000 loss 1.632 acc 0.62
+  [dyn_gated] step 1500 loss 1.620 acc 0.60
+  [dyn_gated] step 2000 loss 1.303 acc 0.65
+  [dyn_gated] step 2500 loss 1.241 acc 0.67
+  [dyn_gated] step 3000 loss 0.925 acc 0.75
+  [dyn_gated] step 3500 loss 1.145 acc 0.73
+  [dyn_gated] step 3999 loss 0.838 acc 0.71
+  models trained (935s)
+  desc_mean          A(1x20s) P0046:0.51 P0049:0.65 P0053:0.48 P0072:0.60 P0096:0.73
+  desc_median        A(1x20s) P0046:0.52 P0049:0.66 P0053:0.44 P0072:0.60 P0096:0.75
+  si_latent          A(1x20s) P0046:0.96 P0049:0.96 P0053:0.90 P0072:0.90 P0096:0.83
+  si_expr            A(1x20s) P0046:1.00 P0049:0.93 P0053:0.92 P0072:0.93 P0096:0.91
+  si_hyper           A(1x20s) P0046:1.00 P0049:1.00 P0053:0.97 P0072:1.00 P0096:1.00
+  posture_static     A(1x20s) P0046:0.77 P0049:0.93 P0053:0.64 P0072:0.75 P0096:0.93
+  learned_mean       A(1x20s) P0046:0.76 P0049:0.99 P0053:0.95 P0072:0.93 P0096:0.99
+  learned_mean_aug   A(1x20s) P0046:0.89 P0049:0.99 P0053:0.95 P0072:0.95 P0096:0.99
+  learned_gated      A(1x20s) P0046:0.93 P0049:0.98 P0053:0.93 P0072:0.92 P0096:1.00
+  learned_dyn_mean   A(1x20s) P0046:0.81 P0049:0.98 P0053:0.95 P0072:0.91 P0096:0.96
+slurmstepd: error: *** JOB 49418242 ON v003 CANCELLED AT 2026-10-18T15:21:40 ***

@@ -1,0 +1,36 @@
+0 131 V00_S0031_I00000134_P0047 33
+20 131 V00_S0050_I00000132_P0078 47
+40 131 V00_S0034_I00000377_P0053 44
+60 131 V00_S0048_I00000378_P0073 19
+80 131 V00_S0064_I00000383_P0095 22
+100 131 V00_S0047_I00000309_P0071 30
+120 131 V00_S0053_I00000376_P0082 41
+done 131
+131 recordings loaded (1s)
+eval participants 32 (main 19), extra-only 0, overlap 0
+fold 0: test 9 (5 query), train participants 23
+  312 queries, sets built
+  [mean] step 0 loss 2.097 acc 0.57
+  [mean] step 199 loss 0.105 acc 0.96
+/ocean/projects/cis250037p/ywang134/envs/aw310/lib/python3.10/site-packages/torch/nn/modules/transformer.py:505: UserWarning: The PyTorch API of nested tensors is in prototype stage and will change in the near future. We recommend specifying layout=torch.jagged when constructing a nested tensor, as this layout receives active development, has better operator coverage, and works with torch.compile. (Triggered internally at /pytorch/aten/src/ATen/NestedTensorImpl.cpp:178.)
+  output = torch._nested_tensor_from_mask(
+  [mean_aug] step 0 loss 2.053 acc 0.57
+  [mean_aug] step 199 loss 0.411 acc 0.87
+  [gated] step 0 loss 2.288 acc 0.48
+  [gated] step 199 loss 0.569 acc 0.91
+  models trained (69s)
+  desc_mean          A(1x20s) P0047:0.71 P0052:0.69 P0056:0.51 P0074:0.65 P0075:0.54
+  desc_median        A(1x20s) P0047:0.73 P0052:0.66 P0056:0.51 P0074:0.65 P0075:0.52
+Traceback (most recent call last):
+  File "/ocean/projects/cis250037p/ywang134/mmml-analysis1/scripts/idea2_midterm.py", line 470, in <module>
+    main(sys.argv[1], sys.argv[2], sys.argv[3], int(sys.argv[4]) if len(sys.argv) > 4 else 4000)
+  File "/ocean/projects/cis250037p/ywang134/mmml-analysis1/scripts/idea2_midterm.py", line 373, in main
+    e, a = embed(rep, s)
+  File "/ocean/projects/cis250037p/ywang134/mmml-analysis1/scripts/idea2_midterm.py", line 348, in embed
+    rows = [np.stack([V[(r, kind)][b] for r, b, kind, _ in s]) for s in sets]
+  File "/ocean/projects/cis250037p/ywang134/mmml-analysis1/scripts/idea2_midterm.py", line 348, in <listcomp>
+    rows = [np.stack([V[(r, kind)][b] for r, b, kind, _ in s]) for s in sets]
+  File "/ocean/projects/cis250037p/ywang134/mmml-analysis1/scripts/idea2_midterm.py", line 348, in <listcomp>
+    rows = [np.stack([V[(r, kind)][b] for r, b, kind, _ in s]) for s in sets]
+KeyError: ('V00_S0031_I00000134_P0047', 'j')
+DONE exit=1

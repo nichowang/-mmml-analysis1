@@ -1,0 +1,103 @@
+% Midterm Section 6: Research Idea 2 (plain paragraphs without \paragraph headings; one single-column table; equations kept).
+% Numbers: results/idea2_midterm/idea2_midterm_results.json (scripts/idea2_midterm.py, job 49419172)
+%          session probe: results/idea2_midterm/session_probe.json
+% Needs:   amsmath, booktabs, graphicx (for the figures), natbib.
+% Figures: idea2_figure1.pdf, idea2_figure2.pdf next to the main tex (Overleaf root) (scripts/make_figure_idea2_midterm_v2.py)
+% Bib keys: agrawal2025seamless (Seamless Interaction), ghorbani2023zeroeggs (Ghorbani et al., ZeroEGGS: Zero-shot Example-based Gesture Generation from Speech, Computer Graphics Forum 2023).
+
+\section{Research Idea 2: Episodic Multi-Reference Conditioning}
+
+\subsection{Initial Implementation}
+
+Idea~2 conditions motion generation on several reference clips of the target person. Our baseline is example-based style conditioning as in ZeroEGGS~\citep{ghorbani2023zeroeggs}. It encodes one reference clip into a style vector. Additional clips are averaged uniformly, and the model does not know which recording each clip comes from. One clip covers one conversation, so its gestures mix the person's habits with what that conversation asked for. Clips from several recordings change the conversation and keep the person fixed. Idea~2 changes only the reference side, so we test that side alone before training a generator, as an identification task. An encoder sees a reference set and a held-out window of the same person, and we measure how reliably it matches the two. We vary how many clips and how many recordings the set contains.
+
+For a target person $p$, a reference set $R_p = \{r_1, \dots, r_K\}$ holds $K$ clips with total duration $D$ from $M \le K$ recordings, excluding the query recording. Clips from one recording start at random positions at least 10\,s apart, so four 5\,s clips are not one contiguous 20\,s segment cut in four. Each clip is cut into 5\,s blocks $b$. A block encoder $f_\theta$ maps each block to $h_b = f_\theta(b)$, and the set embedding is
+\begin{equation}
+  z(R_p) = \sum_{b \in B(R_p)} \alpha_b\, h_b ,
+\end{equation}
+with $\alpha_b = 1/|B(R_p)|$ for mean pooling. A query $q$ is a held-out 10\,s window of $p$ with embedding $e_q$ from the same encoder. Negative sets $R_{p'}$ come from other participants, have the same $(K, M, D)$ structure, and are matched to $R_p$ in voice-activity occupancy. The metric is the pairwise accuracy
+\begin{equation}
+  A(q) = \Pr\big[\, \lVert e_q - z(R_{p'}) \rVert > \lVert e_q - z(R_p) \rVert \,\big],
+\end{equation}
+averaged over matched negative sets. Chance is $A = 0.5$.
+
+We compare three reference encoders. The frozen baseline averages the per-frame outputs of the encoders released with Seamless Interaction~\citep{agrawal2025seamless} within each block: the 64-d frame latent, the 152-d expression code with facial action units, and the 5120-d hypernetwork features. The hypernetwork features barely change within a recording and serve as an appearance control. A handcrafted encoder uses wrist speed, wrist excursion, hand height, and head angular speed in the chest frame. The learned encoder is a two-layer Transformer ($d = 128$) over upper-body SMPL-H pose at 10\,fps with temporal mean pooling. Each training episode draws two reference sets $R_p, R'_p$ per person from disjoint recordings, and the encoder minimizes
+\begin{equation}
+  \mathcal{L}_{\mathrm{NCE}} = -\frac{1}{P} \sum_{p=1}^{P} \log
+  \frac{s_{pp}}{\sum_{p'=1}^{P} s_{pp'}},
+\end{equation}
+with $s_{pp'} = \exp(\langle z(R_p), z(R'_{p'})\rangle/\tau)$, symmetrized over the two sets, with $P = 48$, $\tau = 0.1$, and 4{,}000 AdamW steps. A dynamics variant subtracts each block's mean posture from the input, and a static-posture encoder uses that mean posture alone with no training.
+
+Evaluation uses 32 participants from the first ten Naturalistic training archives, split into four participant folds. Learned encoders are trained on the other three folds plus 141 participants from later batches. Queries come from the 19 participants with at least four eligible recordings (1{,}467 windows) at a fixed 20\,s reference budget. We report participant means with 95\% participant-bootstrap intervals.
+
+\subsection{Results and Discussion}
+\label{sec:idea2_results}
+
+\begin{table}[t]
+\centering
+\small
+\caption{Pairwise accuracy $A$ on 19 held-out participants with a 20\,s reference budget: one 20\,s clip, four 5\,s clips of one recording, and four 5\,s clips of three recordings.}
+\label{tab:idea2}
+\begin{tabular}{lccc}
+\toprule
+Encoder & $1{\times}20$\,s & $4{\times}5$\,s & $4{\times}5$\,s \\
+ & 1 rec. & 1 rec. & 3 rec. \\
+\midrule
+Handcrafted            & 0.60 & 0.63 & 0.64 \\
+Static posture         & 0.82 & 0.84 & 0.89 \\
+SI expression + FAU    & 0.92 & 0.94 & 0.96 \\
+SI frame latent        & 0.93 & 0.94 & 0.95 \\
+SI hypernetwork        & 0.96 & 0.96 & 0.98 \\
+Learned, full pose     & 0.92 & 0.93 & 0.95 \\
+Learned, dynamics only & 0.93 & 0.93 & 0.95 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{idea2_figure1.pdf}
+\caption{Effect of contaminated references. Change in $A$ when two or four corrupted blocks are added to four clean blocks. Jittered blocks carry per-frame rotation noise, and intruder blocks come from another participant. Error bars are 95\% participant-bootstrap intervals.}
+\label{fig:idea2_contam}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{idea2_figure2.pdf}
+\caption{Accuracy per participant with one 20\,s reference from another recording, sorted by the dynamics encoder. Shaded columns mark the two participants recorded in two sessions.}
+\label{fig:idea2_session}
+\end{figure}
+
+Table~\ref{tab:idea2} summarizes the results. With one 20\,s reference, the dynamics encoder reaches $A = 0.93$ and the handcrafted descriptors 0.60. Subtracting the block-mean posture does not lower accuracy (0.93 for dynamics, 0.92 for full pose), so the learned encoder identifies people from movement within a block. Posture alone reaches 0.82 with no training. The frozen appearance features score highest: the hypernetwork features reach 0.96, and 1.00 with references from the query's own recording. These features describe the face, not the gestures, so we use them only as identity checks. Same-recording references raise $A$ by 0.03 to 0.08 for every encoder. Evaluating with them would overstate what a reference carries about the person.
+
+With the number of clips fixed at four, drawing them from three recordings instead of one raises $A$ by 0.02 for the full-pose encoder and 0.01 for the dynamics encoder, with both intervals above zero. Splitting one 20\,s clip into four clips of the same recording raises $A$ by 0.013 for the full-pose encoder (95\% interval 0.006 to 0.021) and by 0.003 for the dynamics encoder (interval includes zero). For the learned encoders, additional recordings give a larger gain than splitting clips within one recording. For the handcrafted descriptors, splitting accounts for most of the gain (0.027 of 0.035), and additional recordings add little.
+
+We found two failure cases. The first is a change of session. Nearly all repeated recordings of a participant come from one session. P0047 was recorded in two sessions, so at least half of the candidate references for each query come from the other session. This participant has the lowest accuracy of all 19 under both the dynamics encoder (0.74) and the appearance features (0.64), while every other participant is above 0.8 (Figure~\ref{fig:idea2_session}). The block-mean posture shows why: 44\% of other participants' recordings are closer to P0047's query than P0047's own recordings from the other session. The encoders pick up how the person sat in that session, not only how they move. Since only two participants span sessions, Table~\ref{tab:idea2} measures identification within a session.
+
+The second failure is contaminated references. Figure~\ref{fig:idea2_contam} shows the change in $A$ as corrupted blocks are added to a clean set. With mean pooling, four blocks of another participant added to four clean blocks cost the dynamics encoder 0.06. Four noisy blocks with 0.05\,rad per-frame rotation noise cost it 0.02, because the noise looks like fast movement. The loss grows with the number of corrupted blocks, since mean pooling cannot down-weight either kind of block. The hypernetwork features lose only 0.01 under four intruders. Appearance is the more stable identity signal when the reference set is unreliable.
+
+We then replaced mean pooling with attention pooling. A block's weight depends on its embedding and on its cosine agreement with the other blocks. Training uses contaminated sets with a penalty on the attention mass of corrupted blocks. Noisy blocks now receive almost no weight, and four of them no longer change $A$ (Figure~\ref{fig:idea2_contam}, attention gate). The cost of four intruders falls from 0.06 to 0.03 but does not vanish. When half of the set comes from another person, agreement within the set says little about identity. On clean sets the gate leaves $A$ unchanged.
+
+\subsection{Updated Research Idea}
+
+The results above give the two modalities of a reference video different roles: appearance identifies the person even under contamination, and motion carries the style but its agreement signal fails when intruders are common. Our updated hypothesis is that conditioning on a motion-only style embedding pooled over several recordings, with block weights that also use appearance consistency, makes generated motion more identifiable as the target person and less sensitive to contaminated references. The comparison is against conditioning on one reference or on a mean-pooled set.
+
+The main change is that the pooling weights become cross-modal: appearance decides which blocks to trust, and motion supplies the style representation. Each reference block provides tracked motion $x_b$ and video $v_b$, a motion encoder gives $h_b = f_\theta(x_b)$, and a frozen appearance encoder gives $u_b = g(v_b)$. The block weights combine the motion agreement $c_b$ of the gate in Section~\ref{sec:idea2_results} with an appearance consistency score,
+\begin{equation}
+\begin{aligned}
+  \alpha_b &= \frac{\exp\!\big(w^\top [\,h_b;\ c_b;\ \kappa_b\,]\big)}{\sum_{b'} \exp\!\big(w^\top [\,h_{b'};\ c_{b'};\ \kappa_{b'}\,]\big)}, \\
+  \kappa_b &= \cos\!\big(u_b,\ \operatorname{median}_{b'} u_{b'}\big).
+\end{aligned}
+\end{equation}
+Appearance enters only the weights, and $z(R_p) = \sum_b \alpha_b h_b$ is built from motion embeddings alone. The median is a majority vote, so the score assumes that more than half of the reference blocks show the target person. With four clean and four intruder blocks this assumption fails, as it did for the motion gate. We evaluate intruder fractions up to one half to find where the gate breaks, and beyond that point one trusted reference clip serves as an anchor. The objective is
+\begin{equation}
+\begin{aligned}
+  \mathcal{L} = {} & \mathcal{L}_{\mathrm{gen}}\big(G(a, z(R_p)), x\big) + \lambda_{\mathrm{id}}\, \mathcal{L}_{\mathrm{NCE}} \\
+  & + \lambda_{q} \textstyle\sum_b \alpha_b\, \mathbf{1}[b \text{ corrupted}],
+\end{aligned}
+\end{equation}
+where $G$ is the speech-to-motion generator and $a$ the new speech. Training episodes vary the number of source recordings $M$ at a fixed duration $D$.
+
+Session invariance is a second direction, not part of the main objective. The two-session case shows that the motion embedding carries session information. But for every other participant the session label coincides with identity, so an adversarial head that removes session information would remove identity as well. We first measure the session effect on the participants that span sessions. An adversarial objective enters only if enough multi-session participants are available to separate the two labels.
+
+Evaluation applies the same identification protocol to generated motion, with references from other recordings. The dynamics encoder is part of the training objective, so it cannot also be the judge. The evaluator is a separate motion encoder trained with a different seed on different participants and never used in any loss. We also report motion quality and speech-motion alignment, since identifiability alone does not show that the motion is natural or follows the speech. We compare $M = 1$ against $M = 3$ at $D = 20$\,s, the three pooling schemes under injected intruders, and accuracy on participants recorded in more than one session.

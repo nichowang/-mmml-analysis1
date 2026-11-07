@@ -1,0 +1,116 @@
+% Analysis 1 -- drop-in replacement for the Section 4 placeholders.
+% Numbers: archives 0000/0000-0002 (results/primary_a0-2/analysis1_results.json).
+\section{Analysis 1: Motion Style Across Recordings}
+\label{sec:a1}
+
+\paragraph{Hypothesis.}
+Motion statistics from one recording may help characterize the same person in
+another. We expect same-person references to be closer to a query than
+different-person references matched for speaking activity. This tests an
+assumption behind reference conditioning and multi-reference training in
+Ideas~1 and~2.
+
+\paragraph{Method.}
+We counted usable windows and distinct recordings per participant and retained
+participants with separate query and reference recordings. SMPL-H body poses
+were replayed on one fixed skeleton (the SMPL neutral mean-shape rest joints),
+so body shape is identical for everyone, and positions were expressed in the
+chest (spine3) frame. Each 5\,s block was described by left and right wrist
+speed, left and right wrist excursion (RMS distance from the block mean), left
+and right hand height, and head angular speed. Blocks needed at least 95\%
+valid SMPL-H frames, and derivatives used only consecutive valid frames inside
+a block. A 10\,s window is the equal-weight mean of its two blocks. Speeds and
+excursions were log-transformed, and every descriptor was z-scored with
+statistics fitted on the 16 single-recording participants, who never serve as
+queries.
+
+For each query window, the same-person reference is a window of the same person
+in a different recording. Different-person references are all windows of other
+participants whose speaking fraction (from the released VAD) lies within $0.10$
+of the same-person reference. All windows last 10\,s, so durations are matched.
+Distance is Euclidean in the 7-dimensional scaled space, and different-person
+distances are averaged per participant before averaging across participants.
+The per-query difference is $\Delta = \bar d_{\text{diff}} - d_{\text{same}}$,
+where positive values favor the hypothesis. We also report a win rate, the
+fraction of matched different-person windows farther from the query than the
+same-person reference, which is $0.5$ at chance. Same-recording comparisons use
+non-adjacent windows (at least 10\,s apart) of the query's own recording. We
+averaged $\Delta$ per participant and computed 95\% intervals with 10{,}000
+bootstrap resamples over participants.
+
+For reference selection, we compared one continuous 10\,s clip with two
+5\,s clips separated by at least 10\,s. Both clips come from one other recording
+of the same person, so both conditions see one recording context. Different-person
+references were built the same way and matched on speaking fraction, and we
+used 40 random draws per query and condition.
+
+\paragraph{Results.}
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=\textwidth]{figures/fig1_primary.pdf}
+  \caption{Analysis 1. (a) Valid 10\,s windows per participant, with shading
+  alternating by recording; blue participants have at least two recordings.
+  (b) Participant-level $\Delta$ for cross-recording and same-recording
+  references, with bootstrap means and 95\% intervals; hollow points are the
+  two participants who also have a recording in a second session. (c)
+  Cross-recording $\Delta$ computed from one descriptor at a time. (d) One
+  continuous 10\,s reference versus two non-adjacent 5\,s references from the
+  same source recording; lines connect participants.}
+  \label{fig:a1}
+\end{figure*}
+
+The three archives contain 38 participant-side recordings from 25 participants
+(110.5 minutes). Of 1{,}307 five-second blocks, 1{,}257 (96\%) passed the
+validity threshold, giving 610 valid windows. Only nine participants have two
+or more recordings, and for seven of them every recording comes from the same
+session (Fig.~\ref{fig:a1}a).
+
+Across recordings, the same-person advantage is small and uncertain:
+$\Delta = 0.15$ $[-0.13, 0.42]$, with six of nine participants positive and a
+win rate of $0.53$ $[0.46, 0.60]$. Within a recording the advantage is clear:
+$\Delta = 0.72$ $[0.34, 1.19]$, with eight of nine participants positive and a
+win rate of $0.66$ $[0.58, 0.75]$ (Fig.~\ref{fig:a1}b). Restricted to pairs
+from the same session, the cross-recording estimate is $0.21$
+$[-0.11, 0.46]$ for eight participants. The two participants with a recording
+in another session both have negative cross-recording $\Delta$ (mean $-0.27$).
+No single descriptor has an interval excluding zero; head angular speed gives
+the largest estimate, $0.09$ $[-0.04, 0.20]$ (Fig.~\ref{fig:a1}c).
+
+Reference selection made no measurable difference. The continuous condition
+gives $\Delta = 0.19$ $[-0.13, 0.48]$ and the spread condition $0.18$
+$[-0.14, 0.49]$, a paired difference of $-0.01$ $[-0.07, 0.06]$ over nine
+participants (Fig.~\ref{fig:a1}d).
+
+\emph{Failure example.} Participant P0074 has the most negative cross-recording
+$\Delta$ ($-0.63$) and only nine valid windows in each of two recordings from
+one session. Participants P0047 and P0048 are each other's partners in one
+interaction and each appear in a second session; both are closer to other
+people than to themselves across recordings. With so few windows per recording,
+recording-specific factors such as seating, table height, and conversation
+topic can outweigh any stable individual habit in these coarse statistics.
+
+\paragraph{Discussion.}
+The descriptors separate people reliably only within a recording. That pattern
+is what we expected if utterance or recording context, rather than a stable
+movement habit, drives much of the similarity. The cross-recording estimate is
+positive but its interval includes zero, and the only evidence across sessions
+(two participants) points the other way. These archives therefore do not yet
+show that a reference from a different recording carries person-specific
+motion information that window-level kinematic statistics can detect. The
+analysis also has little power. Nine participants, mostly confined to one
+session, are too few to separate a weak effect from none, so we are extending
+it to more archives and to participants with multiple sessions.
+
+For Idea~1, a reference drawn from the query's own recording would make
+personalization look stronger than it is, because it shares recording context
+with the target. We will draw references only from other recordings and
+preferably other sessions, and report same-recording results only as an upper
+bound. For Idea~2, spreading the reference across two clips of one recording
+did not help, so a benefit from multiple references should come from varied
+recording contexts rather than from more time points in the same recording.
+Multi-reference training therefore requires participants with several
+sessions, and the data selection should target them explicitly instead of
+following archive order. Finally, if coarse statistics remain at chance with
+more participants, the reference encoder may need finer-grained features (hand
+shape, gesture timing relative to speech) rather than the summary kinematics
+tested here.
